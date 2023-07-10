@@ -20,7 +20,7 @@ public class HelloApplication extends Application {
         root=loader.load();
         //"hello-view.fxml"
         Scene scene = new Scene(root, 700, 700);
-        stage.setTitle("Hello!");
+        stage.setTitle("Paint.IO");
         stage.setScene(scene);
         stage.show();
     }
