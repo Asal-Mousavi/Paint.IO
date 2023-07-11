@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class PaintIO extends Application {
 
     private Parent root;
     @Override
@@ -26,7 +26,7 @@ public class HelloApplication extends Application {
         stage.setTitle("Paint.IO");
         stage.setScene(scene);
         stage.show();
-
+/*
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
@@ -43,7 +43,7 @@ public class HelloApplication extends Application {
                     break;
             }
         });
-
+*/
     }
 
     public static void main(String[] args) {
