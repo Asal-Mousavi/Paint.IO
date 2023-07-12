@@ -27,6 +27,7 @@ public class PaintIO extends Application {
         stage.setScene(scene);
         stage.show();
 /*
+
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:

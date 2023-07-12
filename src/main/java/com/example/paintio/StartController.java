@@ -54,7 +54,8 @@ public class StartController {
             KeyCode keyCode = kEvent.getCode();
             switch (keyCode) {
                 case UP:
-                    moveGrid(0, -1);
+                    test();
+           //         moveGrid(0, -1);
                     break;
                 case DOWN:
                     moveGrid(0, 1);
@@ -75,6 +76,11 @@ public class StartController {
         // Show the stage
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    private  void test(){
+        PaintNode paintNode = new PaintNode(40, Color.RED,0,0);
+// Add the PaintNode to the GridPane at column 0, row 0
+        gridPane.add(paintNode, 0, 0);
     }
 
     private void moveGrid(int dx , int dy){
