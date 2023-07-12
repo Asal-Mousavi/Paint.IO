@@ -26,25 +26,8 @@ public class PaintIO extends Application {
         stage.setTitle("Paint.IO");
         stage.setScene(scene);
         stage.show();
-/*
 
-        scene.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case UP:
-                    System.out.println("U");
-                    break;
-                case DOWN:
-                    System.out.println("D");
-                    break;
-                case RIGHT:
-                    System.out.println("R");
-                    break;
-                case LEFT:
-                    System.out.println("L");
-                    break;
-            }
-        });
-*/
+
     }
 
     public static void main(String[] args) {
