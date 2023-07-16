@@ -7,19 +7,15 @@ import javafx.scene.shape.Rectangle;
 
 public class PaintNode extends StackPane {
     private Color color;
-    private double size;
 
     private int column;
     private int row;
-    public int x;
-    public int y;
-    public PaintNode(double size,Color color,int row,int column) {
+
+    PaintNode(double size,Color color,int row,int column) {
+
         this.color = color;
-        this.size=size;
         this.row=row;
         this.column=column;
-        x=row;
-        y=column;
 
         Rectangle rectangle = new Rectangle(size,size);
         rectangle.setFill(color);
@@ -43,5 +39,38 @@ public class PaintNode extends StackPane {
     public int getRow() {
         return row;
     }
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + column;
+        result = prime * result + row;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PaintNode other = (PaintNode) obj;
+        if (column != other.column)
+            return false;
+        if (row != other.row)
+            return false;
+        return true;
+    }
+
+
+    @Override
+    public String toString() {
+        return "["+ row + "," +column+ "]";
+    }
+
 
 }
