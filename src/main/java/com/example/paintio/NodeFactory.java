@@ -135,6 +135,10 @@ public class NodeFactory {
         return temp;
     }
 
+    private void color(int r,int c){
+        int index =nodeExist(r,c);
+        factory.get(index).setColor(Color.ORANGE);
+    }
     public void fillGridPane(GridPane g, int r , int c ){
         deduplication();
         g.getChildren().clear();
@@ -143,8 +147,12 @@ public class NodeFactory {
             int i=r+k;
             tempRow = findRow(i);
             tempRow=orderColumn(tempRow, c);
-            for(int z=0 ; z<gridSize ;z++)
+            for(int z=0 ; z<gridSize ;z++){
                 g.add(tempRow.get(z),z, k);
+                if(k==gridSize/2 && z==gridSize/2){
+                    color(tempRow.get(z).getRow(),tempRow.get(z).getColumn());
+                }
+            }
         }
     }
 
