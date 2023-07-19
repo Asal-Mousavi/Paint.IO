@@ -19,9 +19,9 @@ public class PaintNode extends StackPane {
 
         Rectangle rectangle = new Rectangle(size,size);
         rectangle.setFill(color);
-   //     Label label = new Label(String.format("(%d,%d)", row , column));
+        Label label = new Label(String.format("(%d,%d)", row , column));
         getChildren().add(rectangle);
-    //    getChildren().add(label);
+        getChildren().add(label);
     }
 
     public void setColor(Color color) {
@@ -41,6 +41,12 @@ public class PaintNode extends StackPane {
     }
 
 
+    public void seat(BotPlayer b){
+        getChildren().add(b);
+    }
+    public void removePlayer(BotPlayer b){
+        getChildren().remove(b);
+    }
     @Override
     public int hashCode() {
         final int prime = 31;

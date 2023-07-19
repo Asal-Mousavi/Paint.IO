@@ -34,8 +34,17 @@ public class NodeFactory {
             }
             rows.add(i);
         }
+        defult();
     }
 
+    private void defult(){
+        for (int i = (gridSize/2)+1 ; i < (gridSize/2)+5 ; i++) {
+            for (int j = (gridSize/2)-3 ; j < (gridSize/2)+1; j++) {
+                int index=nodeExist(i,j);
+                factory.get(index).setColor(Color.RED);
+            }
+        }
+    }
     public int nodeExist(int r,int c){
         for(int i=0 ; i< factory.size() ; i++){
             if((factory.get(i).getColumn() == c) && (factory.get(i).getRow()==r)){
@@ -45,20 +54,12 @@ public class NodeFactory {
         return -1;
     }
 
-    private boolean check(int a, ArrayList<Integer> ar ){
-        for(int i=0 ; i< ar.size() ; i++){
-            if(ar.get(i)==a)
-                return false;
-        }
-        return true;
-    }
-
     public void generateColumn(int c,boolean direction){
         if(direction){
             //Right move
             c += gridSize-1;
         }
-        if( check(c,columns) ){
+        if(!columns.contains(c)){
             for(int i=0 ; i< rows.size() ; i++){
                 int row = rows.get(i);
                 PaintNode node;
@@ -78,7 +79,7 @@ public class NodeFactory {
             //Down move
             r += gridSize-1;
         }
-        if( check(r,rows) ){
+        if(!rows.contains(r)){
             for(int j=0 ; j< columns.size() ; j++){
                 int column=columns.get(j);
                 PaintNode node;

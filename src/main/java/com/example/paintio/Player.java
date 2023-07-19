@@ -21,5 +21,7 @@ public class Player extends StackPane {
         Label label = new Label(String.format("P1"));
         getChildren().add(rect);
         getChildren().add(label);
+
     }
+
 }

@@ -1,5 +1,6 @@
 package com.example.paintio;
 
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
@@ -12,9 +13,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-
-import java.util.ArrayList;
 
 public class StartController {
 
@@ -33,14 +31,23 @@ public class StartController {
     // Define the GridPane
     private GridPane gridPane = new GridPane();
     private Rectangle player = new Rectangle(GRID_SIZE / 2 * CELL_SIZE, GRID_SIZE / 2 * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-    NodeFactory nodes=new NodeFactory(GRID_SIZE , CELL_SIZE);
-
+  //  NodeFactory nodes=new NodeFactory(GRID_SIZE , CELL_SIZE);
+    PlayerLogic nodes = new PlayerLogic(GRID_SIZE,CELL_SIZE);
+    //BotLogic bN;
     public void start(ActionEvent event){
         System.out.println("started");
         Stage primaryStage= new Stage();nodes.fillGridPane(gridPane,0,0);
-
+        BotPlayer e0=new BotPlayer(nodes.factory.get(28),0,CELL_SIZE);
+        //thread
+        BotLogic bN= new BotLogic(GRID_SIZE,CELL_SIZE,e0);
+        Thread thread = new Thread(bN);
+        thread.start();
+     //   gridPane.add(e0);
+        nodes.defult(Color.RED,GRID_SIZE/2);
+        bN.defult(Color.GREEN,24);
         player.setFill(Color.RED);
         Pane root = new Pane(gridPane,player);
+      //  root.getChildren().add(e0);
 
         Scene scene = new Scene(root, GRID_SIZE * CELL_SIZE, GRID_SIZE * CELL_SIZE);
 
@@ -72,7 +79,7 @@ public class StartController {
                     break;
             }
         });
-
+    //    timer.start();
 
         // Show the stage
         primaryStage.setScene(scene);
