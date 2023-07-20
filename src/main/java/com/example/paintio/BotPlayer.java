@@ -7,16 +7,21 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
-public class BotPlayer extends StackPane {
+public class BotPlayer extends Player {
     private PaintNode node;
     public ArrayList<PaintNode> tail = new ArrayList<>();
     private Color color;
     private int num;
     private Rectangle rect;
-    BotPlayer(PaintNode node,int id,int size){
+    public boolean isAlive;
+
+    BotPlayer(PaintNode node,int id,int size,Color clr){
+        super(id,clr);
         this.num=id;
         this.node=node;
-        this.color=Color.CADETBLUE;
+        color=clr;
+      //  this.color=Color.CADETBLUE;
+        isAlive=true;
         this.rect= new Rectangle(size,size,Color.GREEN);
         Label label = new Label(String.format("%d", num));
         getChildren().add(rect);

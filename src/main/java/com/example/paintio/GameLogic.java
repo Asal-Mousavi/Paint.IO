@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public abstract class GameLogic {
     public static ArrayList<PaintNode> factory= new ArrayList<PaintNode>();
+    public static ArrayList<BotPlayer> botPlayers= new ArrayList<>();
     ArrayList<Integer> rows = new ArrayList<>();
     ArrayList<Integer> columns = new ArrayList<>();
     int gridSize;
@@ -15,28 +16,12 @@ public abstract class GameLogic {
 
         this.gridSize=gridSize;
         this.cellSize=cellSize;
-
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
-                PaintNode node;
-                if((i+j)%2==0){
-                    node=new PaintNode(cellSize, Color.WHITE,i,j);
-                } else {
-                    node=new PaintNode(cellSize,Color.GRAY,i,j);
-                }
-                factory.add(node);
-                if(i==0 && !columns.contains(j))
-                    columns.add(j);
-            }
-            if(!rows.contains(i))
-                rows.add(i);
-        }
     }
 
-    void defult(Color color , int s){
-        System.out.println(s);
-        for (int i = s+1 ; i < s+5 ; i++) {
-            for (int j = s-3 ; j < s+1; j++) {
+    void defult(Color color,int r,int c){
+
+        for (int i = r+1 ; i < r+4 ; i++) {
+            for (int j = c-3 ; j < c+1; j++) {
                 int index=nodeExist(i,j);
                 if(index>0){
                     factory.get(index).setColor(color);
@@ -63,7 +48,26 @@ public abstract class GameLogic {
         factory.addAll(unique);
         unique.clear();
     }
-
+    void color(int r, int c){
+        int index =nodeExist(r,c);
+        factory.get(index).setColor(Color.ORANGE);
+    }
+    public void kill(int r , int c){
+        System.out.println("\n"+ r+" "+c);
+        System.out.println("*************************");
+        for (BotPlayer b: botPlayers){
+   //         System.out.println("\nbut "+b);
+            for (PaintNode p: b.tail){
+                System.out.print(p.toString());
+                if(p.getRow()==r && p.getColumn()==c){
+                    b.isAlive=false;
+                    System.out.print(false);
+           //         System.out.println(b.getNode().toString());
+                }
+            }
+  //          System.out.println("*************************");
+        }
+    }
     @Override
     public String toString() {
         String str = "factory :";
@@ -72,10 +76,6 @@ public abstract class GameLogic {
         }
         return " horizontalMove="   + "\t verticalMove="
                 +   "\n\n"+str;
-    }
-    void color(int r, int c){
-        int index =nodeExist(r,c);
-        factory.get(index).setColor(Color.ORANGE);
     }
 
 }

@@ -7,12 +7,46 @@ import javafx.scene.paint.Color;
 import java.util.Random;
 
 public class BotLogic extends GameLogic implements Runnable{
-    private BotPlayer bot ;
-    BotLogic(int gridSize, int cellSize,BotPlayer bot ) {
+    public BotPlayer bot ;
+    Level level;
+    BotLogic(int gridSize, int cellSize,Level level) {
         super(gridSize, cellSize);
-        this.bot=bot;
-        System.out.println(bot.getNum());
-        defult(bot.getColor(),18);
+        this.level = level;
+        int r=randomPlace();
+        setBot(r);
+    }
+    private void  setBot(int index){
+        int id = botPlayers.size();
+        bot=new BotPlayer(factory.get(index),id,cellSize,Color.CHARTREUSE);
+        botPlayers.add(bot);
+    //    defult(bot.getColor(),bot.getNode().getRow(),bot.getNode().getColumn());
+    }
+    private int randomPlace(){
+        System.out.println("place");
+        int r=-1;
+        while(r<0){
+            Random rand = new Random();
+            r = rand.nextInt(factory.size()-1);
+            System.out.println("size "+factory.size());
+            int t=factory.get(r).getRow()-(gridSize/2);
+
+            if(Math.abs(t)<7){
+                System.out.println("R"+r);
+                r=-1;
+            } else {
+                for(BotPlayer b : botPlayers){
+                    t=factory.get(r).getRow()-b.getNode().getRow();
+
+                    if(Math.abs(t)<3){
+                        //      System.out.println("R"+r);
+                        r=-1;
+                    }
+                }
+
+            }
+        }
+        System.out.println("r"+r);
+        return r;
     }
     public int move(int direction){
         int i=-1;
@@ -44,8 +78,8 @@ public class BotLogic extends GameLogic implements Runnable{
                 direction %=4;
             //    System.out.println("direction"+direction);
             } else if (bot.tail.contains(factory.get(i))){
-                System.out.println(factory.get(i).toString());
-                i=-1;
+              //  System.out.println(factory.get(i).toString());
+//                i=-1;
                 direction ++;
                 direction %=4;
             }

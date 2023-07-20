@@ -32,20 +32,22 @@ public class StartController {
     private GridPane gridPane = new GridPane();
     private Rectangle player = new Rectangle(GRID_SIZE / 2 * CELL_SIZE, GRID_SIZE / 2 * CELL_SIZE, CELL_SIZE, CELL_SIZE);
   //  NodeFactory nodes=new NodeFactory(GRID_SIZE , CELL_SIZE);
-    PlayerLogic nodes = new PlayerLogic(GRID_SIZE,CELL_SIZE);
+ //   Player player = new Player(0,GRID_SIZE,CELL_SIZE);
+    PlayerLogic nodes =PlayerLogic.getInstance(GRID_SIZE,CELL_SIZE);
+          //new PlayerLogic(GRID_SIZE,CELL_SIZE);
     //BotLogic bN;
     public void start(ActionEvent event){
         System.out.println("started");
         Stage primaryStage= new Stage();nodes.fillGridPane(gridPane,0,0);
-        BotPlayer e0=new BotPlayer(nodes.factory.get(28),0,CELL_SIZE);
         //thread
-        BotLogic bN= new BotLogic(GRID_SIZE,CELL_SIZE,e0);
+        BotLogic bN= new BotLogic(GRID_SIZE,CELL_SIZE,Level.EASY);
         Thread thread = new Thread(bN);
         thread.start();
-     //   gridPane.add(e0);
-        nodes.defult(Color.RED,GRID_SIZE/2);
-        bN.defult(Color.GREEN,24);
-        player.setFill(Color.RED);
+    //    BotLogic bN1= new BotLogic(GRID_SIZE,CELL_SIZE,Level.EASY);
+    //    Thread thread1 = new Thread(bN1);
+    //    thread1.start();
+
+   //     player.setFill(Color.RED);
         Pane root = new Pane(gridPane,player);
       //  root.getChildren().add(e0);
 

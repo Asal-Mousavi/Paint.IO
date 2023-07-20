@@ -72,7 +72,6 @@ public class PaintNode extends StackPane {
         return true;
     }
 
-
     @Override
     public String toString() {
         return "["+ row + "," +column+ "]";

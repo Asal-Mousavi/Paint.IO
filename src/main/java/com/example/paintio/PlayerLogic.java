@@ -8,8 +8,34 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class PlayerLogic extends GameLogic{
-    PlayerLogic(int gridSize, int cellSize) {
-        super(gridSize, cellSize);
+    private static PlayerLogic instance=null;
+    private PlayerLogic(int gS, int cS) {
+        super(gS, cS);
+        initialize();
+        defult(Color.RED,gridSize/2,gridSize/2);
+    }
+    public static synchronized PlayerLogic getInstance(int gS, int cS){
+        if (instance==null){
+            instance=new PlayerLogic(gS,cS);
+        }
+        return instance;
+    }
+    private void initialize(){
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                PaintNode node;
+                if((i+j)%2==0){
+                    node=new PaintNode(cellSize, Color.WHITE,i,j);
+                } else {
+                    node=new PaintNode(cellSize,Color.GRAY,i,j);
+                }
+                factory.add(node);
+                if(i==0 && !columns.contains(j))
+                    columns.add(j);
+            }
+            if(!rows.contains(i))
+                rows.add(i);
+        }
     }
     public void generateColumn(int c,boolean direction){
         if(direction){
@@ -30,7 +56,6 @@ public class PlayerLogic extends GameLogic{
             columns.add(c);
         }
     }
-
     public void generateRow(int r,boolean direction){
         if(direction){
             //Down move
@@ -50,8 +75,8 @@ public class PlayerLogic extends GameLogic{
             rows.add(r);
         }
     }
-
     public void fillGridPane(GridPane g, int r , int c ){
+        kill(r,c);
         deduplication();
         g.getChildren().clear();
         for(int k=0 ; k< gridSize ; k++){

@@ -5,23 +5,18 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+
 public class Player extends StackPane {
-    private int x;
-    private int y;
+    public ArrayList<PaintNode> tail = new ArrayList<>();
+    public ArrayList<PaintNode> owned = new ArrayList<>();
     private Color color;
-    private double size;
-    public Player(double size, Color color ,int x ,int y) {
-        this.color = color;
-        this.size=size;
-        this.x=x;
-        this.y=y;
+    private int num;
+    public boolean isAlive;
 
-        Rectangle rect = new Rectangle( x, y, size,size);
-        rect.setFill(color);
-        Label label = new Label(String.format("P1"));
-        getChildren().add(rect);
-        getChildren().add(label);
-
+    Player(int id,Color clr) {
+        this.num = id;
+        this.color = clr;
+        isAlive = true;
     }
-
 }
