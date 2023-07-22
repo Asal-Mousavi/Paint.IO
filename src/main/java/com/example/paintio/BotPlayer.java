@@ -8,39 +8,40 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 
 public class BotPlayer extends Player {
+   // private BotLogic logic;
     private PaintNode node;
-    public ArrayList<PaintNode> tail = new ArrayList<>();
-    private Color color;
-    private int num;
     private Rectangle rect;
-    public boolean isAlive;
 
-    BotPlayer(PaintNode node,int id,int size,Color clr){
-        super(id,clr);
-        this.num=id;
+    BotPlayer(PaintNode node,int id,int size,BotLogic logic){
+        super(id,size,logic);
+        setAlive(true);
         this.node=node;
-        color=clr;
-      //  this.color=Color.CADETBLUE;
-        isAlive=true;
+        super.setAlive(true);
         this.rect= new Rectangle(size,size,Color.GREEN);
-        Label label = new Label(String.format("%d", num));
+        Label label = new Label(String.format("%d", super.getNum()));
         getChildren().add(rect);
         getChildren().add(label);
+        setX(node.getRow());
+        setY(node.getColumn());
     }
     public void setNode(PaintNode n){
-        tail.add(node);
-        node.setColor(color);
+        if(isAlive()){
+            tail.add(node);
+            node.setColor(super.getColor());
+        }
         node.removePlayer(this);
         node=n;
+        setX(n.getRow());
+        setY(n.getColumn());
         n.seat(this);
     }
-    public int getNum(){
-        return num;
-    }
-
     public PaintNode getNode(){
         return node;
     }
-    public Color getColor(){
-        return color;}
+    private void setColor(){
+        switch (getNum()){
+            case 1:
+
+        }
+    }
 }

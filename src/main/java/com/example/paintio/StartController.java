@@ -31,26 +31,20 @@ public class StartController {
     // Define the GridPane
     private GridPane gridPane = new GridPane();
     private Rectangle player = new Rectangle(GRID_SIZE / 2 * CELL_SIZE, GRID_SIZE / 2 * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-  //  NodeFactory nodes=new NodeFactory(GRID_SIZE , CELL_SIZE);
- //   Player player = new Player(0,GRID_SIZE,CELL_SIZE);
     PlayerLogic nodes =PlayerLogic.getInstance(GRID_SIZE,CELL_SIZE);
-          //new PlayerLogic(GRID_SIZE,CELL_SIZE);
-    //BotLogic bN;
+
     public void start(ActionEvent event){
-        System.out.println("started");
-        Stage primaryStage= new Stage();nodes.fillGridPane(gridPane,0,0);
+        Stage primaryStage= new Stage();
+        nodes.fillGridPane(gridPane,0,0);
         //thread
         BotLogic bN= new BotLogic(GRID_SIZE,CELL_SIZE,Level.EASY);
         Thread thread = new Thread(bN);
         thread.start();
-    //    BotLogic bN1= new BotLogic(GRID_SIZE,CELL_SIZE,Level.EASY);
-    //    Thread thread1 = new Thread(bN1);
-    //    thread1.start();
+        BotLogic bN1= new BotLogic(GRID_SIZE,CELL_SIZE,Level.EASY);
+        Thread thread1 = new Thread(bN1);
+        thread1.start();
 
-   //     player.setFill(Color.RED);
         Pane root = new Pane(gridPane,player);
-      //  root.getChildren().add(e0);
-
         Scene scene = new Scene(root, GRID_SIZE * CELL_SIZE, GRID_SIZE * CELL_SIZE);
 
         scene.setOnKeyPressed(kEvent -> {
@@ -59,30 +53,22 @@ public class StartController {
                 case W:
                     currentX--;
                     nodes.generateRow(currentX, false);
-                    nodes.fillGridPane(gridPane,currentX,currentY);
                     break;
                 case S:
                     currentX++;
                     nodes.generateRow(currentX, true);
-                    nodes.fillGridPane(gridPane,currentX,currentY);
                     break;
                 case D:
                     currentY++;
                     nodes.generateColumn(currentY, true);
-                    nodes.fillGridPane(gridPane,currentX,currentY);
                     break;
                 case A:
                     currentY--;
                     nodes.generateColumn(currentY, false);
-                    nodes.fillGridPane(gridPane,currentX,currentY);
-                    break;
-                default:
-                    // do nothing
                     break;
             }
+            nodes.fillGridPane(gridPane,currentX,currentY);
         });
-    //    timer.start();
-
         // Show the stage
         primaryStage.setScene(scene);
         primaryStage.show();

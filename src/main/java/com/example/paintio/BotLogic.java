@@ -14,45 +14,40 @@ public class BotLogic extends GameLogic implements Runnable{
         this.level = level;
         int r=randomPlace();
         setBot(r);
+        players.add(bot);
     }
     private void  setBot(int index){
-        int id = botPlayers.size();
-        bot=new BotPlayer(factory.get(index),id,cellSize,Color.CHARTREUSE);
+        int id = botPlayers.size()+1;
+        bot=new BotPlayer(factory.get(index),id,cellSize,this);
+        bot.setColor(Color.AQUAMARINE);
         botPlayers.add(bot);
-    //    defult(bot.getColor(),bot.getNode().getRow(),bot.getNode().getColumn());
+        defult(bot,bot.getColor(),bot.getX(),bot.getY());
     }
     private int randomPlace(){
         System.out.println("place");
         int r=-1;
         while(r<0){
             Random rand = new Random();
-            r = rand.nextInt(factory.size()-1);
-            System.out.println("size "+factory.size());
-            int t=factory.get(r).getRow()-(gridSize/2);
+            r = rand.nextInt(factory.size());
+            System.out.println("R"+r);
+            for(Player b : players){
+                int t=factory.get(r).getRow()-b.getX();
 
-            if(Math.abs(t)<7){
-                System.out.println("R"+r);
-                r=-1;
-            } else {
-                for(BotPlayer b : botPlayers){
-                    t=factory.get(r).getRow()-b.getNode().getRow();
-
-                    if(Math.abs(t)<3){
-                        //      System.out.println("R"+r);
-                        r=-1;
-                    }
+                if(Math.abs(t)<5 || factory.get(r).isTaken ){
+                    //      System.out.println("R"+r);
+                    r=-1;
+                    break;
                 }
-
             }
+
         }
-        System.out.println("r"+r);
         return r;
     }
     public int move(int direction){
         int i=-1;
         while(i<0){
-            int r=bot.getNode().getRow();
-            int c=bot.getNode().getColumn();
+            int r=bot.getX();
+            int c=bot.getY();
 
             if(direction==0){
                 // Right
@@ -70,39 +65,82 @@ public class BotLogic extends GameLogic implements Runnable{
                 // Down
                 r++;
             }
-            //
             i =nodeExist(r,c);
-
             if(i<0){
                 direction++;
                 direction %=4;
-            //    System.out.println("direction"+direction);
             } else if (bot.tail.contains(factory.get(i))){
-              //  System.out.println(factory.get(i).toString());
 //                i=-1;
                 direction ++;
                 direction %=4;
             }
         }
-        //System.out.println("i"+i);
         return i;
     }
-
+    private void reborn(){
+        int place=randomPlace();
+        bot.setNode(factory.get(place));
+        bot.setAlive(true);
+        defult(bot,bot.getColor(),bot.getNode().getRow(),bot.getNode().getColumn());
+    }
     @Override
     public void run() {
-        for(int i =0 ; i<50 ; i++){
+        while(getRunning()){
             Random rand = new Random();
             int d = rand.nextInt(4);
-            Platform.runLater(() -> {
-                // Code that modifies the JavaFX scene graph goes here
-                int index=move(d);
-                bot.setNode(factory.get(index));
-            });
+            if(bot.isAlive()){
+                Platform.runLater(() -> {
+                    kill();
+                    int index=move(d);
+                    bot.setNode(factory.get(index));
+                });
+            } else {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Platform.runLater(() -> {
+                        reborn();
+
+                });
+            }
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void kill() {
+        int r= bot.getX();
+        int c= bot.getY();
+        for (Player b: players){
+            if(!b.equals(bot)){
+                for (PaintNode p: b.tail){
+                    if(p.getRow()==r && p.getColumn()==c){
+                        b.getLogic().die();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    @Override
+    public void die() {
+    //    bot.setAlive(false);
+        bot.getNode().removePlayer(bot);
+        bot.territory.addAll(bot.tail);
+        for(PaintNode p: bot.territory){
+            int r=p.getRow();
+            int c=p.getColumn();
+            int index=nodeExist(r,c);
+            if(factory.get(index).getOwner()==bot)
+                factory.get(index).setColor(factory.get(index).getDefualtColor());
+        }
+        bot.territory.clear();
+        bot.tail.clear();
     }
 }

@@ -3,28 +3,31 @@ package com.example.paintio;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class GameLogic {
+    private static Boolean running;
     public static ArrayList<PaintNode> factory= new ArrayList<PaintNode>();
     public static ArrayList<BotPlayer> botPlayers= new ArrayList<>();
+    public  static ArrayList<Player> players=new ArrayList<>();
     ArrayList<Integer> rows = new ArrayList<>();
     ArrayList<Integer> columns = new ArrayList<>();
     int gridSize;
     int cellSize;
-
     GameLogic(int gridSize,int cellSize){
-
         this.gridSize=gridSize;
         this.cellSize=cellSize;
+        setRunning(true);
     }
-
-    void defult(Color color,int r,int c){
-
+    void defult(Player p,Color color,int r,int c){
         for (int i = r+1 ; i < r+4 ; i++) {
             for (int j = c-3 ; j < c+1; j++) {
                 int index=nodeExist(i,j);
                 if(index>0){
+                    factory.get(index).setOwner(p);
                     factory.get(index).setColor(color);
+                    p.territory.add(factory.get(index));
                 }
             }
         }
@@ -48,26 +51,18 @@ public abstract class GameLogic {
         factory.addAll(unique);
         unique.clear();
     }
-    void color(int r, int c){
-        int index =nodeExist(r,c);
-        factory.get(index).setColor(Color.ORANGE);
+
+    public void setRunning(Boolean running) {
+        this.running = running;
+        System.out.println(this.running);
     }
-    public void kill(int r , int c){
-        System.out.println("\n"+ r+" "+c);
-        System.out.println("*************************");
-        for (BotPlayer b: botPlayers){
-   //         System.out.println("\nbut "+b);
-            for (PaintNode p: b.tail){
-                System.out.print(p.toString());
-                if(p.getRow()==r && p.getColumn()==c){
-                    b.isAlive=false;
-                    System.out.print(false);
-           //         System.out.println(b.getNode().toString());
-                }
-            }
-  //          System.out.println("*************************");
-        }
+
+    public Boolean getRunning() {
+        return running;
     }
+
+    public abstract void kill();
+    public abstract void die();
     @Override
     public String toString() {
         String str = "factory :";

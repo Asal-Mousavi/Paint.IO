@@ -3,16 +3,16 @@ package com.example.paintio;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
 public class PlayerLogic extends GameLogic{
     private static PlayerLogic instance=null;
+    private Player mainPlayer;
     private PlayerLogic(int gS, int cS) {
         super(gS, cS);
+      //  mainPlayer =new Player(0,Color.HOTPINK,gridSize/2,gridSize/2);
+        mainPlayer =new Player(0,gridSize,this);
+        players.add(mainPlayer);
         initialize();
-        defult(Color.RED,gridSize/2,gridSize/2);
+        defult(mainPlayer,Color.RED,gridSize/2,gridSize/2);
     }
     public static synchronized PlayerLogic getInstance(int gS, int cS){
         if (instance==null){
@@ -20,15 +20,39 @@ public class PlayerLogic extends GameLogic{
         }
         return instance;
     }
+    @Override
+    public void kill(){
+        int r = mainPlayer.getX();
+        int c = mainPlayer.getY();
+        for (BotPlayer b: botPlayers){
+            for (PaintNode p: b.tail){
+                System.out.println(b.getNum()+" "+b.isAlive());
+                if(p.getRow()==r && p.getColumn()==c){
+                    b.setAlive(false);
+                    b.getLogic().die();
+                    break;
+                }
+            }
+        }
+    }
+    @Override
+    public void die() {
+        System.out.println("Game over!");
+        mainPlayer.setAlive(false);
+        setRunning(false);
+    }
+    public Player getMainPlayer(){
+        return mainPlayer;
+    }
+    void color(int r, int c){
+        int index =nodeExist(r,c);
+        factory.get(index).setColor(Color.ORANGE);
+        mainPlayer.tail.add(factory.get(index));
+    }
     private void initialize(){
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
-                PaintNode node;
-                if((i+j)%2==0){
-                    node=new PaintNode(cellSize, Color.WHITE,i,j);
-                } else {
-                    node=new PaintNode(cellSize,Color.GRAY,i,j);
-                }
+                PaintNode node=new PaintNode(cellSize,i,j);
                 factory.add(node);
                 if(i==0 && !columns.contains(j))
                     columns.add(j);
@@ -41,16 +65,13 @@ public class PlayerLogic extends GameLogic{
         if(direction){
             //Right move
             c += gridSize-1;
+        //    mainPlayer.setY(c-gridSize/2);
         }
+
         if(!columns.contains(c)){
             for(int i=0 ; i< rows.size() ; i++){
                 int row = rows.get(i);
-                PaintNode node;
-                if((row+c)%2==0){
-                    node=new PaintNode(cellSize, Color.WHITE,row,c);
-                } else {
-                    node=new PaintNode(cellSize,Color.GRAY,row,c);
-                }
+                PaintNode node=new PaintNode(cellSize,row,c);
                 factory.add(node);
             }
             columns.add(c);
@@ -64,19 +85,13 @@ public class PlayerLogic extends GameLogic{
         if(!rows.contains(r)){
             for(int j=0 ; j< columns.size() ; j++){
                 int column=columns.get(j);
-                PaintNode node;
-                if((r+column)%2==0){
-                    node=new PaintNode(cellSize,Color.WHITE,r,column);
-                } else {
-                    node=new PaintNode(cellSize,Color.GRAY,r,column);
-                }
+                PaintNode node=new PaintNode(cellSize,r,column);
                 factory.add(node);
             }
             rows.add(r);
         }
     }
     public void fillGridPane(GridPane g, int r , int c ){
-        kill(r,c);
         deduplication();
         g.getChildren().clear();
         for(int k=0 ; k< gridSize ; k++){
@@ -84,12 +99,17 @@ public class PlayerLogic extends GameLogic{
             for(int z=0 ; z<gridSize ;z++){
                 int j=z+c;
                 int index=nodeExist(i,j);
-                g.add(factory.get(index),z, k);
-
                 if(k==gridSize/2 && z==gridSize/2){
                     color(i,j);
+                    factory.get(index).setOwner(mainPlayer);
+                    mainPlayer.setX(i);
+                    mainPlayer.setY(j);
+                    kill();
                 }
+                g.add(factory.get(index),z, k);
             }
         }
+
+        System.out.println("\nx:"+ mainPlayer.getX()+" y:"+ mainPlayer.getY());
     }
 }
