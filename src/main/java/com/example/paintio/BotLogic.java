@@ -2,7 +2,6 @@ package com.example.paintio;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
-import javafx.scene.paint.Color;
 
 import java.util.Random;
 
@@ -14,13 +13,12 @@ public class BotLogic extends GameLogic implements Runnable{
         this.level = level;
         int r=randomPlace();
         setBot(r);
-        players.add(bot);
     }
     private void  setBot(int index){
         int id = botPlayers.size()+1;
         bot=new BotPlayer(factory.get(index),id,cellSize,this);
-        bot.setColor(Color.AQUAMARINE);
         botPlayers.add(bot);
+        players.add(bot);
         defult(bot,bot.getColor(),bot.getX(),bot.getY());
     }
     private int randomPlace(){
@@ -84,36 +82,6 @@ public class BotLogic extends GameLogic implements Runnable{
         defult(bot,bot.getColor(),bot.getNode().getRow(),bot.getNode().getColumn());
     }
     @Override
-    public void run() {
-        while(getRunning()){
-            Random rand = new Random();
-            int d = rand.nextInt(4);
-            if(bot.isAlive()){
-                Platform.runLater(() -> {
-                    kill();
-                    int index=move(d);
-                    bot.setNode(factory.get(index));
-                });
-            } else {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Platform.runLater(() -> {
-                        reborn();
-
-                });
-            }
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
     public void kill() {
         int r= bot.getX();
         int c= bot.getY();
@@ -142,5 +110,36 @@ public class BotLogic extends GameLogic implements Runnable{
         }
         bot.territory.clear();
         bot.tail.clear();
+    }
+
+    @Override
+    public void run() {
+        while(getRunning()){
+            Random rand = new Random();
+            int d = rand.nextInt(4);
+            if(bot.isAlive()){
+                Platform.runLater(() -> {
+                    kill();
+                    int index=move(d);
+                    bot.setNode(factory.get(index));
+                    factory.get(index).setOwner(bot);
+                });
+            } else {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Platform.runLater(() -> {
+                    reborn();
+
+                });
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

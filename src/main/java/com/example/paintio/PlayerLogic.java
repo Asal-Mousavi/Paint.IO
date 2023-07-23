@@ -1,7 +1,6 @@
 package com.example.paintio;
 
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 
 public class PlayerLogic extends GameLogic{
     private static PlayerLogic instance=null;
@@ -12,7 +11,7 @@ public class PlayerLogic extends GameLogic{
         mainPlayer =new Player(0,gridSize,this);
         players.add(mainPlayer);
         initialize();
-        defult(mainPlayer,Color.RED,gridSize/2,gridSize/2);
+        defult(mainPlayer,mainPlayer.getColor(),gridSize/2,gridSize/2);
     }
     public static synchronized PlayerLogic getInstance(int gS, int cS){
         if (instance==null){
@@ -26,7 +25,6 @@ public class PlayerLogic extends GameLogic{
         int c = mainPlayer.getY();
         for (BotPlayer b: botPlayers){
             for (PaintNode p: b.tail){
-                System.out.println(b.getNum()+" "+b.isAlive());
                 if(p.getRow()==r && p.getColumn()==c){
                     b.setAlive(false);
                     b.getLogic().die();
@@ -46,8 +44,16 @@ public class PlayerLogic extends GameLogic{
     }
     void color(int r, int c){
         int index =nodeExist(r,c);
-        factory.get(index).setColor(Color.ORANGE);
-        mainPlayer.tail.add(factory.get(index));
+        if(factory.get(index).getColor()==mainPlayer.getColor()){
+         //   int i=mainPlayer.tail.get(1).getRow();
+         //   int j=mainPlayer.tail.get(1).getColumn();
+          //  floodFill(9,9,Color.RED,Color.ORANGE,mainPlayer.tail);
+          //  conquest(mainPlayer);
+        }
+        else {
+            factory.get(index).setColor(mainPlayer.getTailColor());
+            mainPlayer.tail.add(factory.get(index));
+        }
     }
     private void initialize(){
         for (int i = 0; i < gridSize; i++) {
@@ -109,7 +115,6 @@ public class PlayerLogic extends GameLogic{
                 g.add(factory.get(index),z, k);
             }
         }
-
-        System.out.println("\nx:"+ mainPlayer.getX()+" y:"+ mainPlayer.getY());
     }
+
 }

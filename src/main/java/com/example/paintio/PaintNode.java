@@ -10,6 +10,7 @@ public class PaintNode extends StackPane {
     private int column;
     private int row;
     public boolean isTaken;
+    public boolean seated;
     private Player owner;
     private Color defualtColor;
 
@@ -18,12 +19,13 @@ public class PaintNode extends StackPane {
         this.row=row;
         this.column=column;
         isTaken=false;
+        seated=false;
         setDefualtColor();
         Rectangle rectangle = new Rectangle(size,size);
         rectangle.setFill(defualtColor);
        // Label label = new Label(String.format("(%d,%d)", row , column));
         getChildren().add(rectangle);
-      //  getChildren().add(label);
+       // getChildren().add(label);
     }
     private void setDefualtColor(){
         if((row+column)%2==0)
@@ -57,9 +59,11 @@ public class PaintNode extends StackPane {
     public void seat(BotPlayer b){
         getChildren().add(b);
         setOwner(b);
+        seated=true;
     }
     public void removePlayer(BotPlayer b){
         getChildren().remove(b);
+        seated=false;
     }
     @Override
     public int hashCode() {

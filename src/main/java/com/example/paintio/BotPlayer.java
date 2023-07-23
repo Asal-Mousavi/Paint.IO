@@ -1,11 +1,7 @@
 package com.example.paintio;
 
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
-import java.util.ArrayList;
 
 public class BotPlayer extends Player {
    // private BotLogic logic;
@@ -17,7 +13,7 @@ public class BotPlayer extends Player {
         setAlive(true);
         this.node=node;
         super.setAlive(true);
-        this.rect= new Rectangle(size,size,Color.GREEN);
+        this.rect= new Rectangle(size,size,super.getColor());
         Label label = new Label(String.format("%d", super.getNum()));
         getChildren().add(rect);
         getChildren().add(label);
@@ -26,8 +22,9 @@ public class BotPlayer extends Player {
     }
     public void setNode(PaintNode n){
         if(isAlive()){
+         //   node.setOwner(this);
             tail.add(node);
-            node.setColor(super.getColor());
+            node.setColor(super.getTailColor());
         }
         node.removePlayer(this);
         node=n;
@@ -37,11 +34,5 @@ public class BotPlayer extends Player {
     }
     public PaintNode getNode(){
         return node;
-    }
-    private void setColor(){
-        switch (getNum()){
-            case 1:
-
-        }
     }
 }

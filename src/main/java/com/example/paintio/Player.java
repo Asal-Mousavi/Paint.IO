@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Player extends StackPane {
+    ColorCollection clr=ColorCollection.getInstance();
     private int x;
     private int y;
     public ArrayList<PaintNode> tail = new ArrayList<>();
@@ -26,6 +27,8 @@ public class Player extends StackPane {
         this.num = id;
         this.logic=logic;
         isAlive = true;
+        setColor(clr.getTerritoryColor(num));
+        setTailColor(clr.getTailColor(num));
     }
     public int getX() {
         return x;
@@ -59,7 +62,6 @@ public class Player extends StackPane {
     public void setTailColor(Color tailColor) {
         this.tailColor = tailColor;
     }
-
     public void setColor(Color color) {
         this.color = color;
     }
