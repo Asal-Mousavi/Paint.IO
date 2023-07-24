@@ -33,7 +33,7 @@ public class StartController {
     private GridPane gridPane = new GridPane();
     private Rectangle player = new Rectangle(GRID_SIZE / 2 * CELL_SIZE, GRID_SIZE / 2 * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     PlayerLogic nodes =PlayerLogic.getInstance(GRID_SIZE,CELL_SIZE);
-    Weapons weapons=new Weapons(GRID_SIZE,CELL_SIZE);
+    Weapons weapons=new Weapons(nodes);
     public void start(ActionEvent event){
         Stage primaryStage= new Stage();
         nodes.fillGridPane(gridPane,0,0);
@@ -75,6 +75,8 @@ public class StartController {
                     break;
                 case ENTER:
                     weapons.weaponA(direction);
+                case SPACE:
+                    weapons.weaponB(direction);
             }
             nodes.fillGridPane(gridPane,currentX,currentY);
          //   nodes.paintArea();

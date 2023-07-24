@@ -27,17 +27,13 @@ public class BotLogic extends GameLogic implements Runnable{
         while(r<0){
             Random rand = new Random();
             r = rand.nextInt(factory.size());
-            System.out.println("R"+r);
             for(Player b : players){
                 int t=factory.get(r).getRow()-b.getX();
-
                 if(Math.abs(t)<5 || factory.get(r).isTaken ){
-                    //      System.out.println("R"+r);
                     r=-1;
                     break;
                 }
             }
-
         }
         return r;
     }

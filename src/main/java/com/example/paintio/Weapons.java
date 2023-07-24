@@ -1,48 +1,67 @@
 package com.example.paintio;
 
 public class Weapons {
-    private int bullet=10;
+    private int bullet=15;
     private PlayerLogic logic ;
     private Player mainPlayer;
-    Weapons(int gridSize,int cellSize){
-        logic=PlayerLogic.getInstance(gridSize,cellSize);
+    Weapons(PlayerLogic logic){
+        this.logic=logic;
         mainPlayer=logic.getMainPlayer();
     }
     public void weaponA(int direction){
         bullet--;
-        while (bullet>0){
+        if(bullet>0){
             int r= mainPlayer.getX();
             int c= mainPlayer.getY();
 
             switch (direction){
                 case 0:
-                    for (int i=c;i<5+c;i++){
-                        int index=logic.nodeExist(r,i);
-                        check(index);
-                    }
+                    c +=7;
+                    area(r,c);
                     break;
                 case 1:
-                    for (int i=r;i>r-5;i--){
-                        int index=logic.nodeExist(i,c);
-                        check(index);
-                    }
+                    r -=7;
+                    area(r,c);
                     break;
                 case 2:
-                    for (int i=c;i>c-5;i--){
-                        int index=logic.nodeExist(r,i);
-                        check(index);
-                    }
+                    c -=7;
+                    area(r,c);
                     break;
                 case 3:
-                    for (int i=r;i<5+r;i++){
-                        int index=logic.nodeExist(i,c);
-                        check(index);
-                    }
+                    r +=7;
+                    area(r,c);
                     break;
             }
         }
     }
-    private void check(int index){
+    public void weaponB(int direction) {
+        int r = mainPlayer.getX();
+        int c = mainPlayer.getY();
+
+        switch (direction) {
+            case 0:
+                c++;
+                break;
+            case 1:
+                r--;
+                break;
+            case 2:
+                c--;
+                break;
+            case 3:
+                r++;
+                break;
+        }
+        int index = logic.nodeExist(r, c);
+        if (logic.factory.get(index).seated) {
+            for (BotPlayer b : logic.botPlayers) {
+                if (b.getNode() == logic.factory.get(index))
+                    b.getLogic().die();
+            }
+        }
+    }
+    private void check(int r, int c){
+        int index = logic.nodeExist(r,c);
         if(!logic.factory.get(index).isTaken)
             logic.factory.get(index).setColor(mainPlayer.getColor());
         else if (logic.factory.get(index).seated){
@@ -52,5 +71,11 @@ public class Weapons {
             }
         }
     }
-
+    private void area(int r,int c){
+        for (int i=r-1;i<=r+1;i++){
+            for (int j=c-1;j<=c+1;j++){
+                check(i,j);
+            }
+        }
+    }
 }
