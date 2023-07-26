@@ -27,8 +27,8 @@ public class Player extends StackPane {
         this.num = id;
         this.logic=logic;
         isAlive = true;
-        setColor(clr.getTerritoryColor(num));
-        setTailColor(clr.getTailColor(num));
+        tailColor=clr.getTailColor(num);
+        color=clr.getTerritoryColor(num);
     }
     public int getX() {
         return x;
@@ -44,6 +44,9 @@ public class Player extends StackPane {
     }
     public Color getColor(){
         return color;}
+    public Color getTailColor() {
+        return tailColor;
+    }
     public void setAlive(boolean a){
         isAlive=a;
     }
@@ -56,13 +59,5 @@ public class Player extends StackPane {
     public GameLogic getLogic() {
         return logic;
     }
-    public Color getTailColor() {
-        return tailColor;
-    }
-    public void setTailColor(Color tailColor) {
-        this.tailColor = tailColor;
-    }
-    public void setColor(Color color) {
-        this.color = color;
-    }
+
 }

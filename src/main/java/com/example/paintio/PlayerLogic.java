@@ -19,41 +19,8 @@ public class PlayerLogic extends GameLogic{
         }
         return instance;
     }
-    @Override
-    public void kill(){
-        int r = mainPlayer.getX();
-        int c = mainPlayer.getY();
-        for (BotPlayer b: botPlayers){
-            for (PaintNode p: b.tail){
-                if(p.getRow()==r && p.getColumn()==c){
-                    b.setAlive(false);
-                    b.getLogic().die();
-                    break;
-                }
-            }
-        }
-    }
-    @Override
-    public void die() {
-        System.out.println("Game over!");
-        mainPlayer.setAlive(false);
-        setRunning(false);
-    }
     public Player getMainPlayer(){
         return mainPlayer;
-    }
-    void color(int r, int c){
-        int index =nodeExist(r,c);
-        if(factory.get(index).getColor()==mainPlayer.getColor()){
-         //   int i=mainPlayer.tail.get(1).getRow();
-         //   int j=mainPlayer.tail.get(1).getColumn();
-          //  floodFill(9,9,Color.RED,Color.ORANGE,mainPlayer.tail);
-          //  conquest(mainPlayer);
-        }
-        else {
-            factory.get(index).setColor(mainPlayer.getTailColor());
-            mainPlayer.tail.add(factory.get(index));
-        }
     }
     private void initialize(){
         for (int i = 0; i < gridSize; i++) {
@@ -71,7 +38,7 @@ public class PlayerLogic extends GameLogic{
         if(direction){
             //Right move
             c += gridSize-1;
-        //    mainPlayer.setY(c-gridSize/2);
+            //    mainPlayer.setY(c-gridSize/2);
         }
 
         if(!columns.contains(c)){
@@ -97,6 +64,35 @@ public class PlayerLogic extends GameLogic{
             rows.add(r);
         }
     }
+    @Override
+    public void kill(){
+        int r = mainPlayer.getX();
+        int c = mainPlayer.getY();
+        for (BotPlayer b: botPlayers){
+            for (PaintNode p: b.tail){
+                if(p.getRow()==r && p.getColumn()==c){
+                    b.setAlive(false);
+                    b.getLogic().die();
+                    break;
+                }
+            }
+        }
+    }
+    @Override
+    public void die() {
+        System.out.println("Game over!");
+        mainPlayer.setAlive(false);
+        setRunning(false);
+    }
+    void color(int r, int c){
+        int index =nodeExist(r,c);
+        if(factory.get(index).getColor()==mainPlayer.getColor())
+            conquest(mainPlayer);
+        else {
+            factory.get(index).setColor(mainPlayer.getTailColor());
+            mainPlayer.tail.add(factory.get(index));
+        }
+    }
     public void fillGridPane(GridPane g, int r , int c ){
         deduplication();
         g.getChildren().clear();
@@ -116,5 +112,6 @@ public class PlayerLogic extends GameLogic{
             }
         }
     }
+
 
 }

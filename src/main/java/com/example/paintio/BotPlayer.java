@@ -4,7 +4,6 @@ import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
 
 public class BotPlayer extends Player {
-   // private BotLogic logic;
     private PaintNode node;
     private Rectangle rect;
 
@@ -22,9 +21,12 @@ public class BotPlayer extends Player {
     }
     public void setNode(PaintNode n){
         if(isAlive()){
-         //   node.setOwner(this);
-            tail.add(node);
-            node.setColor(super.getTailColor());
+            if(n.getColor()==getColor())
+                getLogic().conquest(this);
+            else {
+                tail.add(node);
+                node.setColor(super.getTailColor());
+            }
         }
         node.removePlayer(this);
         node=n;

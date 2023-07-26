@@ -1,7 +1,6 @@
 package com.example.paintio;
 
 import javafx.scene.paint.Color;
-
 import java.util.*;
 
 public abstract class GameLogic {
@@ -60,21 +59,10 @@ public abstract class GameLogic {
     public Boolean getRunning() {
         return running;
     }
-
     public abstract void kill();
     public abstract void die();
-    @Override
-    public String toString() {
-        String str = "factory :";
-        for(PaintNode p: factory){
-            str += p.toString() ;
-        }
-        return " horizontalMove="   + "\t verticalMove="
-                +   "\n\n"+str;
-    }
-
-    //color closed area
-    private void setBoundaries(ArrayList<PaintNode> line){
+    private boolean setBoundaries(ArrayList<PaintNode> line){
+        System.out.println("Boundaries");
         maxR=0;
         maxC=0;
         minR = rows.size();
@@ -93,57 +81,17 @@ public abstract class GameLogic {
             if(p.getColumn()<minC)
                 minC=p.getColumn();
         }
-        /*
-        for (Integer r: rows){
-            if(r>maxR)
-                maxR=r;
-            if (r<minR)
-                minR=r;
-        }
-        for (Integer c:columns){
-            if (c>maxC)
-                maxC=c;
-            if (c<minC)
-                minC=c;
-        }
 
-         */
         System.out.println("****************");
         System.out.println("maxR"+maxR+"\tminR"+minR+"\nmaxC"+maxC+"\tminC"+minC);
         System.out.println("****************");
+
+        if (minR>maxR || minC>maxC)
+            return false;
+        else
+            return true;
     }
-    public void floodFill(int i,int j, Color newClr,Color tailClr,ArrayList<PaintNode> line){
-        setBoundaries(line);
-        int index=nodeExist(i,j);
-        Color currentColor=factory.get(index).getColor();
-        if(currentColor == newClr)
-            return;
-        Queue<PaintNode> nodeLinkedList = new LinkedList<>();
-        nodeLinkedList.offer(factory.get(index));
-        while (!nodeLinkedList.isEmpty()){
-            PaintNode temp= nodeLinkedList.poll();
-            i=temp.getRow();
-            j=temp.getColumn();
-            if(i<minR || i>maxR || j<minC || j>maxC )
-                System.out.println("outsider:"+temp.toString());
-            else if( temp.getColor()==newClr || temp.getColor()==tailClr)
-                System.out.println("Visited:"+temp.toString());
-            else {
-                temp.setColor(newClr);
-                index=nodeExist(i+1,j);
-                nodeLinkedList.offer(factory.get(index));
-                index=nodeExist(i-1,j);
-                nodeLinkedList.offer(factory.get(index));
-                index=nodeExist(i,j+1);
-                nodeLinkedList.offer(factory.get(index));
-                index=nodeExist(i,j-1);
-                nodeLinkedList.offer(factory.get(index));
-            }
-        }
-        for (PaintNode p:line)
-            p.setColor(newClr);
-    }
-    private void floodFill(int index, Color newClr, Color tailClr){
+    private void floodFill(int index, Color newClr, Color tailClr,Player player){
         Color currentColor=factory.get(index).getColor();
         if(currentColor == newClr)
             return;
@@ -157,6 +105,7 @@ public abstract class GameLogic {
                 System.out.println("outsider:"+temp.toString());
             else if( temp.getColor()==newClr || temp.getColor()==tailClr)
                 System.out.println("Visited:"+temp.toString());
+                //!isInside(i,j,player)
             else {
                 temp.setColor(newClr);
                 index=nodeExist(i+1,j);
@@ -170,21 +119,68 @@ public abstract class GameLogic {
             }
         }
     }
-    public void conquest(Player player){
-        setBoundaries(player.tail);
-        int r=maxR-1;
-        int c=maxC-1;
-        int index=nodeExist(r,c);
-        while (player.tail.contains(factory.get(index))){
-            r--;
-            c--;
-            index=nodeExist(r,c);
+    public boolean isInside(int r, int c,Player player){
+        boolean result;
+        int count=0;
+        for (int j=c ; j<columns.size() ; j++){
+            int index= nodeExist(r,j);
+            if(index>0){
+                PaintNode n=factory.get(index);
+                if(player.tail.contains(n))
+                    count++;
+                if(count==0 && n.getColor()==player.getColor())
+                    count++;
+            }
         }
-        System.out.println(factory.get(index).toString());
-        floodFill(index,Color.RED,Color.ORANGE);
-        for (PaintNode p:player.tail)
-            p.setColor(Color.RED);
-       // player.tail.clear();
+        //    System.out.println(count);
+        if(count%2==0)
+            result=false;
+        else
+            result=true;
+
+        return result;
+    }
+    public void conquest(Player player){
+        boolean b=setBoundaries(player.tail);
+        //    System.out.println(b);
+        if(b){
+            Random rand = new Random();
+            int r;
+            int c;
+            int index;
+            do{
+                if(minC==maxC || minR==maxR){
+                    r=minR;
+                    c=minC;
+                    break;
+                }
+                r = rand.nextInt(maxR-minR);
+                r +=minR;
+                c = rand.nextInt(maxC-minC);
+                c +=minC;
+                index=nodeExist(r,c);
+                //        System.out.println(factory.get(index).toString());
+                //    System.out.println("~inside :"+!isInside(r,c,player)+"\t tail :"+player.tail.contains(factory.get(index)));
+                //    System.out.println("result:"+( !isInside(r,c,player) || player.tail.contains(factory.get(index) ) ) );
+                //isInside(r,c,player)==false || player.tail.contains(factory.get(index))==true
+            }while (!isInside(r,c,player)|| player.tail.contains(factory.get(index)));
+            index=nodeExist(r,c);
+            System.out.println("finished first part");
+
+            floodFill(index,player.getColor(),player.getTailColor(),player);
+            for (PaintNode p:player.tail)
+                p.setColor(player.getColor());
+            player.tail.clear();
+        }
+    }
+    @Override
+    public String toString() {
+        String str = "factory :";
+        for(PaintNode p: factory){
+            str += p.toString() ;
+        }
+        return " horizontalMove="   + "\t verticalMove="
+                +   "\n\n"+str;
     }
 
 

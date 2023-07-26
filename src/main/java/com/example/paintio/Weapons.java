@@ -1,7 +1,11 @@
 package com.example.paintio;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Weapons {
     private int bullet=15;
+    private boolean shoot=true;
     private PlayerLogic logic ;
     private Player mainPlayer;
     Weapons(PlayerLogic logic){
@@ -35,30 +39,43 @@ public class Weapons {
         }
     }
     public void weaponB(int direction) {
-        int r = mainPlayer.getX();
-        int c = mainPlayer.getY();
+        if(shoot){
+            int r = mainPlayer.getX();
+            int c = mainPlayer.getY();
 
-        switch (direction) {
-            case 0:
-                c++;
-                break;
-            case 1:
-                r--;
-                break;
-            case 2:
-                c--;
-                break;
-            case 3:
-                r++;
-                break;
-        }
-        int index = logic.nodeExist(r, c);
-        if (logic.factory.get(index).seated) {
-            for (BotPlayer b : logic.botPlayers) {
-                if (b.getNode() == logic.factory.get(index))
-                    b.getLogic().die();
+            switch (direction) {
+                case 0:
+                    c++;
+                    break;
+                case 1:
+                    r--;
+                    break;
+                case 2:
+                    c--;
+                    break;
+                case 3:
+                    r++;
+                    break;
             }
+            int index = logic.nodeExist(r, c);
+            if (logic.factory.get(index).seated) {
+                for (BotPlayer b : logic.botPlayers) {
+                    if (b.getNode() == logic.factory.get(index))
+                        b.getLogic().die();
+                }
+            }
+            shoot=false;
+            sleep();
         }
+    }
+    private void sleep(){
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            public void run() {
+                shoot=true;
+            }
+        };
+        timer.schedule(task, 3000);
     }
     private void check(int r, int c){
         int index = logic.nodeExist(r,c);

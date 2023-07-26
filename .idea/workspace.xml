@@ -7,7 +7,13 @@
     <list default="true" id="c3f7c24e-b90a-4c13-93b2-e1e30f26a170" name="Changes" comment="moving grid">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PaintNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PaintNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/TailColor.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/Weapons.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/Weapons.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -127,7 +133,9 @@
       <workItem from="1690012827339" duration="7937000" />
       <workItem from="1690026112552" duration="11788000" />
       <workItem from="1690057273712" duration="4181000" />
-      <workItem from="1690148079684" duration="10346000" />
+      <workItem from="1690148079684" duration="11020000" />
+      <workItem from="1690202634033" duration="6282000" />
+      <workItem from="1690381541399" duration="9465000" />
     </task>
     <task id="LOCAL-00001" summary="start!">
       <created>1688995800862</created>
