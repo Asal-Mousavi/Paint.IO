@@ -45,24 +45,41 @@ public class Weapons {
 
             switch (direction) {
                 case 0:
-                    c++;
+                    for (BotPlayer b: logic.botPlayers){
+                        if ( b.getX()==r && b.getY() >c){
+                            b.setAlive(false);
+                            b.getLogic().die();
+                            break;
+                        }
+                    }
                     break;
                 case 1:
-                    r--;
+                    for (BotPlayer b: logic.botPlayers){
+                        if ( b.getX()< r && b.getY()==c){
+                            b.setAlive(false);
+                            b.getLogic().die();
+                            break;
+                        }
+                    }
                     break;
                 case 2:
-                    c--;
+                    for (BotPlayer b: logic.botPlayers){
+                        if ( b.getX()==r && b.getY() <c){
+                            b.setAlive(false);
+                            b.getLogic().die();
+                            break;
+                        }
+                    }
                     break;
                 case 3:
-                    r++;
+                    for (BotPlayer b: logic.botPlayers){
+                        if ( b.getX()> r && b.getY()==c){
+                            b.setAlive(false);
+                            b.getLogic().die();
+                            break;
+                        }
+                    }
                     break;
-            }
-            int index = logic.nodeExist(r, c);
-            if (logic.factory.get(index).seated) {
-                for (BotPlayer b : logic.botPlayers) {
-                    if (b.getNode() == logic.factory.get(index))
-                        b.getLogic().die();
-                }
             }
             shoot=false;
             sleep();
@@ -84,6 +101,7 @@ public class Weapons {
         else if (logic.factory.get(index).seated){
             for (BotPlayer b: logic.botPlayers){
                 if (b.getNode()==logic.factory.get(index))
+                    b.setAlive(false);
                     b.getLogic().die();
             }
         }

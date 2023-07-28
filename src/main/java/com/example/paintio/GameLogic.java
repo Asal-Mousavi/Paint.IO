@@ -7,7 +7,7 @@ public abstract class GameLogic {
     private static Boolean running;
     public static ArrayList<PaintNode> factory= new ArrayList<PaintNode>();
     public static ArrayList<BotPlayer> botPlayers= new ArrayList<>();
-    public  static ArrayList<Player> players=new ArrayList<>();
+    public static ArrayList<Player> players=new ArrayList<>();
     ArrayList<Integer> rows = new ArrayList<>();
     ArrayList<Integer> columns = new ArrayList<>();
     private int maxR;
@@ -108,6 +108,7 @@ public abstract class GameLogic {
                 //!isInside(i,j,player)
             else {
                 temp.setColor(newClr);
+                player.territory.add(temp);
                 index=nodeExist(i+1,j);
                 queue.offer(factory.get(index));
                 index=nodeExist(i-1,j);
@@ -143,13 +144,16 @@ public abstract class GameLogic {
     public void conquest(Player player){
         boolean b=setBoundaries(player.tail);
         //    System.out.println(b);
+        int count=-1;
         if(b){
+            count++;
             Random rand = new Random();
             int r;
             int c;
             int index;
             do{
                 if(minC==maxC || minR==maxR){
+                    // || count>50
                     r=minR;
                     c=minC;
                     break;

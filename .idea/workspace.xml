@@ -10,10 +10,6 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PaintNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PaintNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/TailColor.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/Weapons.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/Weapons.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -135,7 +131,8 @@
       <workItem from="1690057273712" duration="4181000" />
       <workItem from="1690148079684" duration="11020000" />
       <workItem from="1690202634033" duration="6282000" />
-      <workItem from="1690381541399" duration="9465000" />
+      <workItem from="1690381541399" duration="10138000" />
+      <workItem from="1690530860114" duration="4200000" />
     </task>
     <task id="LOCAL-00001" summary="start!">
       <created>1688995800862</created>

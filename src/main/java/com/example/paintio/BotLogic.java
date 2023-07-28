@@ -60,7 +60,12 @@ public class BotLogic extends GameLogic implements Runnable{
                 r++;
             }
             i =nodeExist(r,c);
-            if(i<0 || bot.tail.contains(factory.get(i))){
+            if(i<0){
+                //bot.tail.contains(factory.get(i))
+                direction++;
+                direction %=4;
+            }else if( bot.territory.contains(factory.get(i)) ){
+                i=-1;
                 direction++;
                 direction %=4;
             }
@@ -127,7 +132,7 @@ public class BotLogic extends GameLogic implements Runnable{
                 });
             }
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

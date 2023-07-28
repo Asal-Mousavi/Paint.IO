@@ -23,9 +23,9 @@ public class PaintNode extends StackPane {
         setDefualtColor();
         Rectangle rectangle = new Rectangle(size,size);
         rectangle.setFill(defualtColor);
-        Label label = new Label(String.format("(%d,%d)", row , column));
+        //Label label = new Label(String.format("(%d,%d)", row , column));
         getChildren().add(rectangle);
-        getChildren().add(label);
+        //getChildren().add(label);
     }
     private void setDefualtColor(){
         if((row+column)%2==0)
@@ -36,7 +36,7 @@ public class PaintNode extends StackPane {
     public Color getDefualtColor(){
         return defualtColor;
     }
-    public void setColor(Color color) {
+    public synchronized void setColor(Color color) {
         this.color = color;
         ((Rectangle) getChildren().get(0)).setFill(color);
     }
