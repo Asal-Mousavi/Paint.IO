@@ -19,6 +19,12 @@ public class ColorCollection {
 
         territoryColor.add(Color.RED);
         tailColor.add(Color.ORANGE);
+
+        territoryColor.add(Color.BROWN);
+        tailColor.add(Color.SADDLEBROWN);
+
+        territoryColor.add(Color.PURPLE);
+        tailColor.add(Color.MEDIUMPURPLE);
     }
     public static synchronized ColorCollection getInstance(){
         if (instance==null){

@@ -253,12 +253,12 @@ public abstract class GameLogic {
             if( ((v2.getRow())-v1.getRow()) == 0 )
                 continue;
  */
-        //    if( ((v2.getRow())-v1.getRow()) != 0 && ((v2.getColumn())- v1.getColumn()) !=0){
+            if( ((v2.getRow())-v1.getRow()) != 0){
                 if((y<v1.getRow()) != (y< v2.getRow()) &&
                         x<( v1.getColumn() +((y- v1.getRow())/(v2.getRow())-v1.getRow()) * ((v2.getColumn())- v1.getColumn()) ))
                     count++;
             }
-     //   }
+        }
         return count%2==1;
     }
     private int findBase(Player player,boolean right){

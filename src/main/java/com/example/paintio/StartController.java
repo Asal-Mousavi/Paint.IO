@@ -21,13 +21,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class StartController {
-
     @FXML
     private AnchorPane pane;
     KeyCode keyCode;
     @FXML
     private Rectangle rect;
     public int speed;
+    public int enemies;
+    public Level level;
     // Define the size of the grid and cell
     private static final int GRID_SIZE = 20;
     private static final int CELL_SIZE = 40;
@@ -43,10 +44,18 @@ public class StartController {
     Weapons weapons=new Weapons(nodes);
     public void start(ActionEvent event){
         Stage primaryStage= new Stage();
+        System.out.println(speed);
+        System.out.println(enemies);
+        System.out.println(level);
         nodes.fillGridPane(gridPane,0,0);
         player.setFill(nodes.getMainPlayer().getColor());
-        speed=200;
+        //speed=200;
        //thread
+        for (int n=0;n<enemies;n++){
+            BotLogic bN= new BotLogic(GRID_SIZE,CELL_SIZE,level);
+            Thread thread = new Thread(bN);
+            thread.start();
+        }
 /*        BotLogic bN= new BotLogic(GRID_SIZE,CELL_SIZE,Level.EASY);
         Thread thread = new Thread(bN);
         thread.start();

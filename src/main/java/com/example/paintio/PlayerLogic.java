@@ -103,10 +103,12 @@ public class PlayerLogic extends GameLogic{
             boolean right=false;
        //     if(mainPlayer.getY()<c || c<8)
             int i=0;
-            if(vertex.size()>1 && vertex.get(0)==vertex.get(1))
-                i++;
-            if( vertex.size()>1 && vertex.get(i).getColumn()>vertex.get(i+1).getColumn() )
-                right=true;
+            if(vertex.size()>1){
+                if(vertex.size()>2 && vertex.get(0)==vertex.get(1))
+                    i++;
+                if(vertex.get(i).getColumn()>vertex.get(i+1).getColumn() )
+                    right=true;
+            }
             System.out.println("Right: "+right);
             conquest(mainPlayer,right);
         //    findBase(mainPlayer,right);
