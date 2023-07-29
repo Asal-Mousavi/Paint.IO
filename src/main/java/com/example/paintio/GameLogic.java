@@ -10,10 +10,13 @@ public abstract class GameLogic {
     public static ArrayList<Player> players=new ArrayList<>();
     ArrayList<Integer> rows = new ArrayList<>();
     ArrayList<Integer> columns = new ArrayList<>();
+    ArrayList<PaintNode> vertex=new ArrayList<>();
     private int maxR;
     private int maxC;
     private int minR;
     private int minC;
+    boolean lastM;
+    boolean recentM;
     int gridSize;
     int cellSize;
     GameLogic(int gridSize,int cellSize){
@@ -22,7 +25,7 @@ public abstract class GameLogic {
         setRunning(true);
     }
     void defult(Player p,Color color,int r,int c){
-        for (int i = r+1 ; i < r+4 ; i++) {
+        for (int i = r ; i < r+4 ; i++) {
             for (int j = c-3 ; j < c+1; j++) {
                 int index=nodeExist(i,j);
                 if(index>0){
@@ -41,15 +44,15 @@ public abstract class GameLogic {
         }
         return -1;
     }
-    public void deduplication(){
-        ArrayList<PaintNode> unique = new ArrayList<PaintNode>(factory);
-        for(PaintNode p: factory){
+    public void deduplication(ArrayList<PaintNode> arr){
+        ArrayList<PaintNode> unique = new ArrayList<PaintNode>(arr);
+        for(PaintNode p: arr){
             if( !unique.contains(p) ){
                 unique.add(p);
             }
         }
-        factory.clear();
-        factory.addAll(unique);
+        arr.clear();
+        arr.addAll(unique);
         unique.clear();
     }
     public void setRunning(Boolean running) {
@@ -62,7 +65,6 @@ public abstract class GameLogic {
     public abstract void kill();
     public abstract void die();
     private boolean setBoundaries(ArrayList<PaintNode> line){
-        System.out.println("Boundaries");
         maxR=0;
         maxC=0;
         minR = rows.size();
@@ -102,9 +104,11 @@ public abstract class GameLogic {
             int i=temp.getRow();
             int j=temp.getColumn();
             if(i<minR || i>maxR || j<minC || j>maxC )
-                System.out.println("outsider:"+temp.toString());
+                continue;
+            //    System.out.println("outsider:"+temp.toString()); ;
             else if( temp.getColor()==newClr || temp.getColor()==tailClr)
-                System.out.println("Visited:"+temp.toString());
+                continue;
+            //    System.out.println("Visited:"+temp.toString());
                 //!isInside(i,j,player)
             else {
                 temp.setColor(newClr);
@@ -123,7 +127,13 @@ public abstract class GameLogic {
     public boolean isInside(int r, int c,Player player){
         boolean result;
         int count=0;
-        for (int j=c ; j<columns.size() ; j++){
+        int maxCol=0;
+        for (Integer col: columns){
+            if (col>maxCol)
+                maxCol=col;
+        }
+       // System.out.println(maxCol);
+        for (int j=c ; j<maxCol ; j++){
             int index= nodeExist(r,j);
             if(index>0){
                 PaintNode n=factory.get(index);
@@ -141,12 +151,14 @@ public abstract class GameLogic {
 
         return result;
     }
-    public void conquest(Player player){
+    public void conquest(Player player,boolean right){
         boolean b=setBoundaries(player.tail);
+        /*
         //    System.out.println(b);
-        int count=-1;
+    //    int count=-1;
+
         if(b){
-            count++;
+    //        count++;
             Random rand = new Random();
             int r;
             int c;
@@ -163,7 +175,7 @@ public abstract class GameLogic {
                 c = rand.nextInt(maxC-minC);
                 c +=minC;
                 index=nodeExist(r,c);
-                //        System.out.println(factory.get(index).toString());
+                 //       System.out.println(factory.get(index).toString());
                 //    System.out.println("~inside :"+!isInside(r,c,player)+"\t tail :"+player.tail.contains(factory.get(index)));
                 //    System.out.println("result:"+( !isInside(r,c,player) || player.tail.contains(factory.get(index) ) ) );
                 //isInside(r,c,player)==false || player.tail.contains(factory.get(index))==true
@@ -171,11 +183,37 @@ public abstract class GameLogic {
             index=nodeExist(r,c);
             System.out.println("finished first part");
 
-            floodFill(index,player.getColor(),player.getTailColor(),player);
+         */
+            int index=0;
+            while (index != -1){
+                index=findBase(player,right);
+                if(index>=0)
+                    floodFill(index,player.getColor(),player.getTailColor(),player);
+            }
             for (PaintNode p:player.tail)
                 p.setColor(player.getColor());
             player.tail.clear();
-        }
+            vertex.clear();
+    }
+    public void paintArea(Player player,boolean right){
+        ArrayList<PaintNode> inside = new ArrayList<>();
+        boolean b=setBoundaries(player.tail);
+        for (int i=minR ; i<=maxR ; i++)
+            for (int j=minC ; j<=maxC ; j++){
+                int index=nodeExist(i,j);
+                System.out.println(factory.get(index));
+                if( factory.get(index).getColor()==player.getTailColor() || factory.get(index).getColor()==player.getColor())
+               //     System.out.println("tail or colored");
+                    continue;
+                else if(rayCasting(i,j,right))
+                    inside.add(factory.get(index));
+            }
+        for (PaintNode p: inside)
+            p.setColor(player.getColor());
+        vertex.clear();
+        for (PaintNode p:player.tail)
+            p.setColor(player.getColor());
+        player.tail.clear();
     }
     @Override
     public String toString() {
@@ -186,6 +224,56 @@ public abstract class GameLogic {
         return " horizontalMove="   + "\t verticalMove="
                 +   "\n\n"+str;
     }
+    public void addVertex(int r,int c){
+        int index =nodeExist(r,c);
+        if (recentM != lastM)
+            vertex.add(factory.get(index));
+    }
+    public boolean rayCasting(int y,int x,boolean right){
+        int count=0;
+        for (int i=0 ; i<vertex.size();i++){
+            PaintNode v1;
+            PaintNode v2;
+            if(!right && i== vertex.size()-1)
+                break;
+            else if(i== vertex.size()-1){
+                // right==true
+                v1=vertex.get(0);
+                v2=vertex.get(i);
+            }else {
+                // i<vertex.size()-1
+                v1=vertex.get(i);
+                v2=vertex.get(i+1);
+            }
 
+            System.out.println("v1: "+v1.toString() +"  V2: "+ v2.toString());
+            System.out.println(x<( v1.getColumn() +((y- v1.getRow())/(v2.getRow())-v1.getRow()) * ((v2.getColumn())- v1.getColumn())));
+            System.out.println(((y- v1.getRow())/(v2.getRow())-v1.getRow()));
+            System.out.println(((v2.getColumn())- v1.getColumn()));
+
+            if( ((v2.getRow())-v1.getRow()) == 0 )
+                continue;
+            else if( (y<v1.getRow()) != (y< v2.getRow()) &&
+                    x<( v1.getColumn() +((y- v1.getRow())/(v2.getRow())-v1.getRow()) * ((v2.getColumn())- v1.getColumn()) ))
+                count++;
+        }
+        return count%2==1;
+    }
+    private int findBase(Player player,boolean right){
+        int index;
+        for (int i=minR ; i<=maxR ; i++)
+            for (int j=minC ; j<=maxC ; j++){
+                index=nodeExist(i,j);
+
+                if( factory.get(index).getColor()==player.getTailColor() || factory.get(index).getColor()==player.getColor())
+                    //     System.out.println("tail or colored");
+                    continue;
+                else if(rayCasting(i,j,right)){
+                    System.out.println("Base:"+factory.get(index));
+                    return index;
+                }
+            }
+        return -1;
+    }
 
 }

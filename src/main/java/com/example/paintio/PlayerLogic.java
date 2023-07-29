@@ -12,6 +12,8 @@ public class PlayerLogic extends GameLogic{
         players.add(mainPlayer);
         initialize();
         defult(mainPlayer,mainPlayer.getColor(),gridSize/2,gridSize/2);
+    //    lastM=true;
+        recentM=true;
     }
     public static synchronized PlayerLogic getInstance(int gS, int cS){
         if (instance==null){
@@ -35,12 +37,13 @@ public class PlayerLogic extends GameLogic{
         }
     }
     public void generateColumn(int c,boolean direction){
+        lastM=recentM;
+        recentM=false;
         if(direction){
             //Right move
             c += gridSize-1;
             //    mainPlayer.setY(c-gridSize/2);
         }
-
         if(!columns.contains(c)){
             for(int i=0 ; i< rows.size() ; i++){
                 int row = rows.get(i);
@@ -51,6 +54,8 @@ public class PlayerLogic extends GameLogic{
         }
     }
     public void generateRow(int r,boolean direction){
+        lastM=recentM;
+        recentM=true;
         if(direction){
             //Down move
             r += gridSize-1;
@@ -84,17 +89,39 @@ public class PlayerLogic extends GameLogic{
         mainPlayer.setAlive(false);
         setRunning(false);
     }
-    void color(int r, int c){
-        int index =nodeExist(r,c);
-        if(factory.get(index).getColor()==mainPlayer.getColor())
-            conquest(mainPlayer);
-        else {
+    void color(int r, int c) {
+        int index = nodeExist(r, c);
+        if (factory.get(index).getColor() == mainPlayer.getColor()) {
+        //
+            vertex.add(factory.get(index));
+        //    deduplication(vertex);
+            System.out.println("vertex");
+            for (PaintNode p : vertex)
+                System.out.println(p.toString());
+            System.out.println("*************");
+
+            boolean right=false;
+       //     if(mainPlayer.getY()<c || c<8)
+            int i=0;
+            if(vertex.size()>1 && vertex.get(0)==vertex.get(1))
+                i++;
+            if( vertex.size()>1 && vertex.get(i).getColumn()>vertex.get(i+1).getColumn() )
+                right=true;
+            System.out.println("Right: "+right);
+            conquest(mainPlayer,right);
+        //    findBase(mainPlayer,right);
+        //    paintArea(mainPlayer,right);
+    }else {
+            if(vertex.size()==0){
+                int h=nodeExist(mainPlayer.getX(),mainPlayer.getY());
+                vertex.add(factory.get(h));
+            }
             factory.get(index).setColor(mainPlayer.getTailColor());
             mainPlayer.tail.add(factory.get(index));
         }
     }
     public void fillGridPane(GridPane g, int r , int c ){
-        deduplication();
+        deduplication(factory);
         g.getChildren().clear();
         for(int k=0 ; k< gridSize ; k++){
             int i=r+k;
@@ -103,6 +130,7 @@ public class PlayerLogic extends GameLogic{
                 int index=nodeExist(i,j);
                 if(k==gridSize/2 && z==gridSize/2){
                     color(i,j);
+                    addVertex(mainPlayer.getX(),mainPlayer.getY());
                     factory.get(index).setOwner(mainPlayer);
                     mainPlayer.setX(i);
                     mainPlayer.setY(j);
@@ -111,6 +139,7 @@ public class PlayerLogic extends GameLogic{
                 g.add(factory.get(index),z, k);
             }
         }
+    //    lastM=recentM;
     }
 
 

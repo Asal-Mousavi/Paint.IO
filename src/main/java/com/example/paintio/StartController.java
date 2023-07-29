@@ -43,12 +43,11 @@ public class StartController {
         Thread thread = new Thread(bN);
         thread.start();
 
- */
         BotLogic bN1= new BotLogic(GRID_SIZE,CELL_SIZE,Level.EASY);
         Thread thread1 = new Thread(bN1);
         thread1.start();
 
-
+ */
         Pane root = new Pane(gridPane,player);
         Scene scene = new Scene(root, GRID_SIZE * CELL_SIZE, GRID_SIZE * CELL_SIZE);
 
@@ -82,6 +81,7 @@ public class StartController {
             }
             nodes.fillGridPane(gridPane,currentX,currentY);
         });
+
         // Show the stage
         primaryStage.setScene(scene);
         primaryStage.show();

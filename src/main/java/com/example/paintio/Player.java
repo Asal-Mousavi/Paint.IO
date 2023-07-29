@@ -1,13 +1,8 @@
 package com.example.paintio;
 
-import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Player extends StackPane {
     ColorCollection clr=ColorCollection.getInstance();
