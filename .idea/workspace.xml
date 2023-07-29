@@ -7,9 +7,6 @@
     <list default="true" id="c3f7c24e-b90a-4c13-93b2-e1e30f26a170" name="Changes" comment="moving grid">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PaintNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PaintNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -138,7 +135,7 @@
       <workItem from="1690555432460" duration="1518000" />
       <workItem from="1690574959921" duration="6645000" />
       <workItem from="1690615248814" duration="7659000" />
-      <workItem from="1690630796530" duration="332000" />
+      <workItem from="1690630796530" duration="7365000" />
     </task>
     <task id="LOCAL-00001" summary="start!">
       <created>1688995800862</created>

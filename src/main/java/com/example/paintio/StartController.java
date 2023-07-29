@@ -1,9 +1,14 @@
 package com.example.paintio;
 
+import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.Scene;
@@ -13,14 +18,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class StartController {
 
     @FXML
     private AnchorPane pane;
-
+    KeyCode keyCode;
     @FXML
     private Rectangle rect;
+    public int speed;
     // Define the size of the grid and cell
     private static final int GRID_SIZE = 20;
     private static final int CELL_SIZE = 40;
@@ -38,6 +45,7 @@ public class StartController {
         Stage primaryStage= new Stage();
         nodes.fillGridPane(gridPane,0,0);
         player.setFill(nodes.getMainPlayer().getColor());
+        speed=200;
        //thread
 /*        BotLogic bN= new BotLogic(GRID_SIZE,CELL_SIZE,Level.EASY);
         Thread thread = new Thread(bN);
@@ -52,6 +60,10 @@ public class StartController {
         Scene scene = new Scene(root, GRID_SIZE * CELL_SIZE, GRID_SIZE * CELL_SIZE);
 
         scene.setOnKeyPressed(kEvent -> {
+               handleKeyPress(kEvent);
+        });
+
+     /*   scene.setOnKeyPressed(kEvent -> {
             KeyCode keyCode = kEvent.getCode();
             switch (keyCode) {
                 case W:
@@ -82,8 +94,73 @@ public class StartController {
             nodes.fillGridPane(gridPane,currentX,currentY);
         });
 
+      */
+
         // Show the stage
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+    AnimationTimer timer=new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+       //     boolean action=false;
+            switch (keyCode) {
+                case W:
+                    direction=1;
+                    currentX--;
+                    nodes.generateRow(currentX, false);
+                    break;
+                case S:
+                    direction=3;
+                    currentX++;
+                    nodes.generateRow(currentX, true);
+                    break;
+                case D:
+                    direction=0;
+                    currentY++;
+                    nodes.generateColumn(currentY, true);
+                    break;
+                case A:
+                    direction=2;
+                    currentY--;
+                    nodes.generateColumn(currentY, false);
+                    break;
+                case ENTER:
+                    weapons.weaponA(direction);
+        //            action=true;
+                case SPACE:
+                    weapons.weaponB(direction);
+        //            action=true;
+            }
+            nodes.fillGridPane(gridPane,currentX,currentY);
+            try {
+                Thread.sleep(speed);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            /*if(action){
+                switch (direction){
+                    case 0:
+                        keyCode=KeyCode.RIGHT;
+                        break;
+                    case 1:
+                        keyCode=KeyCode.UP;
+                        break;
+                    case 2:
+                        keyCode=KeyCode.LEFT;
+                        break;
+                    case 3:
+                        keyCode=KeyCode.DOWN;
+                        break;
+                }
+            }
+
+             */
+        }
+    };
+    void handleKeyPress(KeyEvent e){
+        keyCode=e.getCode();
+        timer.start();
+    }
+
 }

@@ -245,18 +245,20 @@ public abstract class GameLogic {
                 v1=vertex.get(i);
                 v2=vertex.get(i+1);
             }
-
+/*
             System.out.println("v1: "+v1.toString() +"  V2: "+ v2.toString());
             System.out.println(x<( v1.getColumn() +((y- v1.getRow())/(v2.getRow())-v1.getRow()) * ((v2.getColumn())- v1.getColumn())));
             System.out.println(((y- v1.getRow())/(v2.getRow())-v1.getRow()));
             System.out.println(((v2.getColumn())- v1.getColumn()));
-
             if( ((v2.getRow())-v1.getRow()) == 0 )
                 continue;
-            else if( (y<v1.getRow()) != (y< v2.getRow()) &&
-                    x<( v1.getColumn() +((y- v1.getRow())/(v2.getRow())-v1.getRow()) * ((v2.getColumn())- v1.getColumn()) ))
-                count++;
-        }
+ */
+        //    if( ((v2.getRow())-v1.getRow()) != 0 && ((v2.getColumn())- v1.getColumn()) !=0){
+                if((y<v1.getRow()) != (y< v2.getRow()) &&
+                        x<( v1.getColumn() +((y- v1.getRow())/(v2.getRow())-v1.getRow()) * ((v2.getColumn())- v1.getColumn()) ))
+                    count++;
+            }
+     //   }
         return count%2==1;
     }
     private int findBase(Player player,boolean right){
