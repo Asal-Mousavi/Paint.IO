@@ -1,8 +1,8 @@
 package com.example.paintio;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class BotLogic extends GameLogic implements Runnable{
@@ -40,6 +40,20 @@ public class BotLogic extends GameLogic implements Runnable{
         }
         return r;
     }
+    private int easyDirection(){
+        System.out.println("lastMove : "+lastMove);
+        int dr=-1;
+        while (dr<0){
+            Random rand = new Random();
+            dr = rand.nextInt(4);
+            // Avoid turning back
+            if (dr!=lastMove && dr%2==lastMove%2)
+                dr=-1;
+            System.out.println("dr : "+dr);
+        }
+        System.out.println("Direction : "+dr);
+        return dr;
+    }
     public int move(int direction){
         int i=-1;
         while(i<0){
@@ -67,11 +81,14 @@ public class BotLogic extends GameLogic implements Runnable{
                 //bot.tail.contains(factory.get(i))
                 direction++;
                 direction %=4;
-            }else if( bot.territory.contains(factory.get(i)) ){
+            }
+            /*else if( bot.territory.contains(factory.get(i)) ){
                 i=-1;
                 direction++;
                 direction %=4;
             }
+
+             */
         }
         return i;
     }
@@ -113,26 +130,34 @@ public class BotLogic extends GameLogic implements Runnable{
     }
     @Override
     public void run() {
+        ArrayList<PaintNode> neighbor = new ArrayList<>();
+        PaintNode startPoint = null;
         while(getRunning()){
             int d;
-            if(time%3==0){
-                if(level==Level.EASY){
-                    Random rand = new Random();
-                    d = rand.nextInt(4);
-                } else {
-                    d=lastMove;
-                }
-            } else {
-                d = lastMove;
-            }
             if(bot.isAlive()){
+                if(time%3==0){
+                    if(level==Level.EASY){
+                        d=easyDirection();
+                    } else {
+                        System.out.println("time :"+time);
+                        if(time%9==0){
+                            System.out.println();
+                            startPoint=bot.getNode();
+                            neighbor=neighbor(bot.getX(),bot.getY());
+                        }
+                        d=hardDirection(neighbor,startPoint,time%9);
+                    }
+                    time++;
+                } else {
+                    d = lastMove;
+                    time++;
+                }
                 Platform.runLater(() -> {
                         kill();
                         int index=move(d);
                         bot.setNode(factory.get(index));
                         factory.get(index).setOwner(bot);
                         lastMove=d;
-                        time++;
                 });
             } else {
                 try {
@@ -142,15 +167,142 @@ public class BotLogic extends GameLogic implements Runnable{
                 }
                 Platform.runLater(() -> {
                     reborn();
-
+                    time=0;
                 });
             }
             try {
                 Thread.sleep(botSpeed);
-                System.out.println(botSpeed);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
+
+    private ArrayList<PaintNode> neighbor(int r, int c){
+        ArrayList<PaintNode> neighbors = new ArrayList<>();
+        int index;
+        // Right
+        index=nodeExist(r,c+1);
+        if(index>0)
+            neighbors.add(factory.get(index));
+        // Up
+        index=nodeExist(r-1,c);
+        if(index>0)
+            neighbors.add(factory.get(index));
+        // Left
+        index=nodeExist(r,c-1);
+        if(index>0)
+            neighbors.add(factory.get(index));
+        // Down
+        index=nodeExist(r+1,c);
+        if(index>0)
+            neighbors.add(factory.get(index));
+
+        System.out.println(r+"  "+c);
+        for (PaintNode n:neighbors)
+            System.out.print(n.toString()+"\t");
+        System.out.println();
+        return neighbors;
+    }
+    private int hardDirection(ArrayList<PaintNode> neighbors, PaintNode startPoint,int t){
+        int dr = -1;
+
+        if(t==0)
+            dr=firstMove(neighbors,startPoint);
+        else if (t==3)
+            dr=secondMove(neighbors,startPoint);
+        else {
+            System.out.println("thirdMove");
+            if(lastMove%2==0){ // move up or down
+                if(bot.getX()<startPoint.getRow())
+                    dr=3;
+                else if(bot.getX()>startPoint.getRow())
+                    dr=1;
+            }else { // move right or left
+                if (bot.getY()<startPoint.getColumn())
+                    dr=0;
+                else if(bot.getY()>startPoint.getColumn())
+                    dr=2;
+            }
+        }
+
+        System.out.println("dr :"+dr);
+        return dr;
+    }
+    private double distance(PaintNode p1,PaintNode p2){
+        double rowDiff = p1.getRow() - p2.getRow();
+        rowDiff *= rowDiff;
+        double colDiff = p1.getColumn() - p2.getColumn();
+        colDiff *= colDiff;
+        double distance = Math.sqrt(rowDiff+colDiff);
+        return distance;
+    }
+    private int firstMove(ArrayList<PaintNode> neighbors,PaintNode startPoint){
+        System.out.println("firstMove");
+        int i=0;
+        int[] possiblePath=new int[4];
+        double[] distance=new double[4];
+        for (int j=0; j<neighbors.size() ;j++){
+            if(neighbors.get(j).getColor() != bot.getColor()){
+                possiblePath[i]=j;
+                int index=nodeExist(players.get(0).getX(),players.get(0).getY());
+                distance[i]=distance(neighbors.get(j),factory.get(index));
+                i++;
+            }
+        }
+        
+        //compare
+        int min=0;
+        if(distance[1]<distance[0])
+            min=1;
+        PaintNode closest=neighbors.get(possiblePath[min]);
+        return diraction(closest,startPoint);
+    }
+    private int secondMove(ArrayList<PaintNode> neighbors, PaintNode startPoint) {
+        System.out.println("secondMove");
+        PaintNode closest = null;
+        int i = 0;
+        int dr = 0;
+        int[] possiblePath = new int[2];
+        double[] distance = new double[2];
+        ArrayList<PaintNode> colored = new ArrayList<>();
+
+        for (int j = 0; j < neighbors.size(); j++) {
+            dr=diraction(neighbors.get(j),startPoint);
+            if (dr % 2 != lastMove % 2)
+                if (neighbors.get(j).getColor() == bot.getColor()) {
+                    colored.add(neighbors.get(j));
+                    possiblePath[i] = j;
+                    i++;
+                }
+        }
+
+        int min = 0;
+        if (colored.size() > 1) {
+            int index = nodeExist(players.get(0).getX(), players.get(0).getY());
+            distance[0] = distance(colored.get(0), factory.get(index));
+            distance[1] = distance(colored.get(1), factory.get(index));
+            //compare
+            min = 0;
+            if (distance[1] < distance[0])
+                min = 1;
+        } else
+            closest = colored.get(0);
+
+        closest = colored.get(min);
+        return diraction(closest,startPoint);
+    }
+    private int diraction(PaintNode p1,PaintNode p2){
+        int dr=0;
+        if(p1.getColumn()>p2.getColumn())
+            dr=0;
+        else if(p1.getColumn()<p2.getColumn())
+            dr=2;
+        else if(p1.getRow()<p2.getRow())
+            dr=1;
+        else if(p1.getRow()>p2.getRow())
+            dr=3;
+        return  dr;
+    }
+    
 }
