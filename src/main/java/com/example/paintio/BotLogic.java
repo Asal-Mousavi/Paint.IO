@@ -6,8 +6,11 @@ import javafx.application.Platform;
 import java.util.Random;
 
 public class BotLogic extends GameLogic implements Runnable{
-    public BotPlayer bot ;
+    public BotPlayer bot;
     Level level;
+    public int botSpeed;
+    private int time=0;
+    private int lastMove;
     BotLogic(int gridSize, int cellSize,Level level) {
         super(gridSize, cellSize);
         this.level = level;
@@ -111,14 +114,25 @@ public class BotLogic extends GameLogic implements Runnable{
     @Override
     public void run() {
         while(getRunning()){
-            Random rand = new Random();
-            int d = rand.nextInt(4);
+            int d;
+            if(time%3==0){
+                if(level==Level.EASY){
+                    Random rand = new Random();
+                    d = rand.nextInt(4);
+                } else {
+                    d=lastMove;
+                }
+            } else {
+                d = lastMove;
+            }
             if(bot.isAlive()){
                 Platform.runLater(() -> {
-                    kill();
-                    int index=move(d);
-                    bot.setNode(factory.get(index));
-                    factory.get(index).setOwner(bot);
+                        kill();
+                        int index=move(d);
+                        bot.setNode(factory.get(index));
+                        factory.get(index).setOwner(bot);
+                        lastMove=d;
+                        time++;
                 });
             } else {
                 try {
@@ -132,7 +146,8 @@ public class BotLogic extends GameLogic implements Runnable{
                 });
             }
             try {
-                Thread.sleep(1000);
+                Thread.sleep(botSpeed);
+                System.out.println(botSpeed);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

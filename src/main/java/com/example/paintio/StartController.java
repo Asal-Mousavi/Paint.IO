@@ -53,6 +53,8 @@ public class StartController {
        //thread
         for (int n=0;n<enemies;n++){
             BotLogic bN= new BotLogic(GRID_SIZE,CELL_SIZE,level);
+            bN.level=level;
+            bN.botSpeed=speed*2;
             Thread thread = new Thread(bN);
             thread.start();
         }
@@ -68,108 +70,60 @@ public class StartController {
         Pane root = new Pane(gridPane,player);
         Scene scene = new Scene(root, GRID_SIZE * CELL_SIZE, GRID_SIZE * CELL_SIZE);
 
-        scene.setOnKeyPressed(kEvent -> {
-               handleKeyPress(kEvent);
-        });
-
-     /*   scene.setOnKeyPressed(kEvent -> {
-            KeyCode keyCode = kEvent.getCode();
-            switch (keyCode) {
-                case W:
-                    direction=1;
-                    currentX--;
-                    nodes.generateRow(currentX, false);
-                    break;
-                case S:
-                    direction=3;
-                    currentX++;
-                    nodes.generateRow(currentX, true);
-                    break;
-                case D:
-                    direction=0;
-                    currentY++;
-                    nodes.generateColumn(currentY, true);
-                    break;
-                case A:
-                    direction=2;
-                    currentY--;
-                    nodes.generateColumn(currentY, false);
-                    break;
-                case ENTER:
-                    weapons.weaponA(direction);
-                case SPACE:
-                    weapons.weaponB(direction);
-            }
-            nodes.fillGridPane(gridPane,currentX,currentY);
-        });
-
-      */
-
         // Show the stage
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-    AnimationTimer timer=new AnimationTimer() {
-        @Override
-        public void handle(long now) {
-       //     boolean action=false;
-            switch (keyCode) {
-                case W:
-                    direction=1;
-                    currentX--;
-                    nodes.generateRow(currentX, false);
-                    break;
-                case S:
-                    direction=3;
-                    currentX++;
-                    nodes.generateRow(currentX, true);
-                    break;
-                case D:
-                    direction=0;
-                    currentY++;
-                    nodes.generateColumn(currentY, true);
-                    break;
-                case A:
-                    direction=2;
-                    currentY--;
-                    nodes.generateColumn(currentY, false);
-                    break;
-                case ENTER:
-                    weapons.weaponA(direction);
-        //            action=true;
-                case SPACE:
-                    weapons.weaponB(direction);
-        //            action=true;
-            }
-            nodes.fillGridPane(gridPane,currentX,currentY);
-            try {
-                Thread.sleep(speed);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            /*if(action){
-                switch (direction){
-                    case 0:
-                        keyCode=KeyCode.RIGHT;
+        AnimationTimer timer=new AnimationTimer() {
+            KeyCode lastPress;
+            @Override
+            public void handle(long now) {
+                        //=KeyCode.W;
+                switch (keyCode) {
+                    case W:
+                        direction=1;
+                        currentX--;
+                        nodes.generateRow(currentX, false);
+                        lastPress=keyCode;
                         break;
-                    case 1:
-                        keyCode=KeyCode.UP;
+                    case S:
+                        direction=3;
+                        currentX++;
+                        nodes.generateRow(currentX, true);
+                        lastPress=keyCode;
                         break;
-                    case 2:
-                        keyCode=KeyCode.LEFT;
+                    case D:
+                        direction=0;
+                        currentY++;
+                        nodes.generateColumn(currentY, true);
+                        lastPress=keyCode;
                         break;
-                    case 3:
-                        keyCode=KeyCode.DOWN;
+                    case A:
+                        direction=2;
+                        currentY--;
+                        nodes.generateColumn(currentY, false);
+                        lastPress=keyCode;
                         break;
+                    case ENTER:
+                        weapons.weaponA(direction);
+                        keyCode=lastPress;
+                    case SPACE:
+                        weapons.weaponB(direction);
+                        keyCode=lastPress;
+                }
+                nodes.fillGridPane(gridPane,currentX,currentY);
+
+                try {
+                    Thread.sleep(speed);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
             }
+        };
 
-             */
-        }
-    };
-    void handleKeyPress(KeyEvent e){
-        keyCode=e.getCode();
-        timer.start();
+        scene.setOnKeyPressed(kEvent -> {
+            keyCode=kEvent.getCode();
+            timer.start();
+        });
     }
 
 }

@@ -6,13 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c3f7c24e-b90a-4c13-93b2-e1e30f26a170" name="Changes" comment="moving grid">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/ColorCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/ColorCollection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/HelloApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/Level.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/paintio/menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/paintio/menu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,6 +137,7 @@
       <workItem from="1690615248814" duration="7659000" />
       <workItem from="1690630796530" duration="7774000" />
       <workItem from="1690662889688" duration="6449000" />
+      <workItem from="1690706538330" duration="3742000" />
     </task>
     <task id="LOCAL-00001" summary="start!">
       <created>1688995800862</created>
