@@ -8,6 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,6 +142,7 @@
       <workItem from="1690706538330" duration="6287000" />
       <workItem from="1690732685385" duration="4507000" />
       <workItem from="1690750243281" duration="8163000" />
+      <workItem from="1690785127780" duration="12584000" />
     </task>
     <task id="LOCAL-00001" summary="start!">
       <created>1688995800862</created>

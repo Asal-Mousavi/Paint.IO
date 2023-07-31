@@ -16,6 +16,7 @@ public class BotLogic extends GameLogic implements Runnable{
         this.level = level;
         int r=randomPlace();
         setBot(r);
+        recentM=true;
     }
     private void  setBot(int index){
         int id = botPlayers.size()+1;
@@ -81,6 +82,8 @@ public class BotLogic extends GameLogic implements Runnable{
                 //bot.tail.contains(factory.get(i))
                 direction++;
                 direction %=4;
+            //    time++;
+                System.out.println("t++/i: "+i);
             }
             /*else if( bot.territory.contains(factory.get(i)) ){
                 i=-1;
@@ -90,6 +93,8 @@ public class BotLogic extends GameLogic implements Runnable{
 
              */
         }
+        lastM=recentM;
+        recentM=(direction%2==1);
         return i;
     }
     private void reborn(){
@@ -127,6 +132,7 @@ public class BotLogic extends GameLogic implements Runnable{
         }
         bot.territory.clear();
         bot.tail.clear();
+        time=0;
     }
     @Override
     public void run() {
@@ -141,6 +147,7 @@ public class BotLogic extends GameLogic implements Runnable{
                     } else {
                         System.out.println("time :"+time);
                         if(time%9==0){
+                            vertex.add(bot.getNode());
                             System.out.println();
                             startPoint=bot.getNode();
                             neighbor=neighbor(bot.getX(),bot.getY());
@@ -253,8 +260,9 @@ public class BotLogic extends GameLogic implements Runnable{
         
         //compare
         int min=0;
-        if(distance[1]<distance[0])
-            min=1;
+        if(i>1)
+            if(distance[1]<distance[0])
+                min=1;
         PaintNode closest=neighbors.get(possiblePath[min]);
         return diraction(closest,startPoint);
     }
@@ -284,13 +292,16 @@ public class BotLogic extends GameLogic implements Runnable{
             distance[1] = distance(colored.get(1), factory.get(index));
             //compare
             min = 0;
-            if (distance[1] < distance[0])
-                min = 1;
+            if(i>1)
+                if (distance[1] < distance[0])
+                    min = 1;
         } else
             closest = colored.get(0);
 
         closest = colored.get(min);
-        return diraction(closest,startPoint);
+        dr=diraction(closest,startPoint);
+                System.out.println("dr :"+dr);
+        return dr;
     }
     private int diraction(PaintNode p1,PaintNode p2){
         int dr=0;

@@ -42,7 +42,6 @@ public class PlayerLogic extends GameLogic{
         if(direction){
             //Right move
             c += gridSize-1;
-            //    mainPlayer.setY(c-gridSize/2);
         }
         if(!columns.contains(c)){
             for(int i=0 ; i< rows.size() ; i++){
@@ -92,13 +91,7 @@ public class PlayerLogic extends GameLogic{
     void color(int r, int c) {
         int index = nodeExist(r, c);
         if (factory.get(index).getColor() == mainPlayer.getColor()) {
-        //
             vertex.add(factory.get(index));
-        //    deduplication(vertex);
-            System.out.println("vertex");
-            for (PaintNode p : vertex)
-                System.out.println(p.toString());
-            System.out.println("*************");
 
             boolean right=false;
        //     if(mainPlayer.getY()<c || c<8)

@@ -21,12 +21,32 @@ public class BotPlayer extends Player {
     }
     public void setNode(PaintNode n){
         if(isAlive()){
+            tail.add(node);
+            node.setColor(super.getTailColor());
+            getLogic().addVertex(node.getRow(),node.getColumn());
+            if(n.getColor()==getColor()){
+                getLogic().vertex.add(n);
+                int i=0;
+                boolean right=false;
+                if(getLogic().vertex.size()>1){
+                    if(getLogic().vertex.size()>2 && getLogic().vertex.get(0)==getLogic().vertex.get(1))
+                        i++;
+                    if(getLogic().vertex.get(i).getColumn()>getLogic().vertex.get(i+1).getColumn() )
+                        right=true;
+                }
+                System.out.println("Right: "+right);
+                getLogic().conquest(this,right);
+            }
+         /*
             if(n.getColor()==getColor())
-                getLogic().conquest(this,false);
+                System.out.println("FILL");
+            //    getLogic().conquest(this,false);
             else {
                 tail.add(node);
                 node.setColor(super.getTailColor());
             }
+
+          */
         }
         node.removePlayer(this);
         node=n;
