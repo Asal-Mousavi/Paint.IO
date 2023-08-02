@@ -52,11 +52,11 @@ public class MenuController implements Initializable {
         String s=speed.getValue();
         int sp=0;
         if(s=="100%")
-            sp=50;
+            sp=80;
         if(s=="50%")
-            sp=100;
+            sp=160;
         if(s=="25%")
-            sp=200;
+            sp=320;
         selectedSpeed=sp;
     }
     public void next(ActionEvent actionEvent){

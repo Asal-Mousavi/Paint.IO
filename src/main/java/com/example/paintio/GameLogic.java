@@ -149,8 +149,9 @@ public abstract class GameLogic {
             }
             for (PaintNode p:player.tail){
                 p.setColor(player.getColor());
-                p.isTaken=false;
-                p.setOwner(player);
+                int t=nodeExist(p.getRow(),p.getColumn());
+                factory.get(t).isTaken=false;
+                factory.get(t).setOwner(player);
             }
             player.territory.addAll(player.tail);
             player.tail.clear();

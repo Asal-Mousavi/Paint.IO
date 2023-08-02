@@ -7,12 +7,11 @@
     <list default="true" id="c3f7c24e-b90a-4c13-93b2-e1e30f26a170" name="Changes" comment="moving grid">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/MenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PaintNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PaintNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/paintio/apps.38504.14311257158561123.315e8841-524b-4ed8-929d-c678ba3e28f4.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,19 +66,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/IdeaProjects/New folder/Paint.IO&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_directory_selection": "C:/Users/user/IdeaProjects/New folder/Paint.IO/src/main/java/com/example/paintio",
+    "last_opened_file_path": "C:/Users/user/IdeaProjects/New folder/Paint.IO",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="Paint.IO" />
@@ -148,7 +148,8 @@
       <workItem from="1690785127780" duration="12649000" />
       <workItem from="1690808391152" duration="4298000" />
       <workItem from="1690921550740" duration="4222000" />
-      <workItem from="1690961696747" duration="7924000" />
+      <workItem from="1690961696747" duration="8104000" />
+      <workItem from="1690980704831" duration="10765000" />
     </task>
     <task id="LOCAL-00001" summary="start!">
       <created>1688995800862</created>

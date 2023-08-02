@@ -121,7 +121,6 @@ public class BotLogic extends GameLogic implements Runnable{
         for(PaintNode p: bot.territory)
             System.out.print(p.toString());
         System.out.println("\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-
          */
         for(PaintNode p: bot.territory){
             int r=p.getRow();
