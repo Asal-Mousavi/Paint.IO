@@ -30,8 +30,8 @@ public class StartController {
     public int enemies;
     public Level level;
     // Define the size of the grid and cell
-    private static final int GRID_SIZE = 20;
-    private static final int CELL_SIZE = 40;
+    private static final int GRID_SIZE = 25;
+    private static final int CELL_SIZE = 32;
 
     private int currentX ;
     private int currentY ;

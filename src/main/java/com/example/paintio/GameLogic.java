@@ -29,11 +29,15 @@ public abstract class GameLogic {
             for (int j = c-3 ; j < c+1; j++) {
                 int index=nodeExist(i,j);
                 if(index>0){
-                //    factory.get(index).setOwner(p);
                     factory.get(index).setColor(color);
                     p.territory.add(factory.get(index));
+                    factory.get(index).setOwner(p);
                 }
             }
+        }
+        if(p.territory.size()<4){
+            p.setAlive(false);
+            p.getLogic().die();
         }
     }
     public int nodeExist(int r,int c){
@@ -70,9 +74,9 @@ public abstract class GameLogic {
         minR = rows.size()*2;
         minC = columns.size()*2;
 
-        System.out.println("\n$$$$$$$$ \n tail");
+    //    System.out.println("\n$$$$$$$$ \n tail");
         for(PaintNode p : line){
-            System.out.println(p.toString());
+    //        System.out.println(p.toString());
             if(p.getRow()>maxR)
                 maxR=p.getRow();
 
@@ -85,11 +89,12 @@ public abstract class GameLogic {
             if(p.getColumn()<minC)
                 minC=p.getColumn();
         }
-
+/*
         System.out.println("\n****************");
         System.out.println("maxR"+maxR+"\tminR"+minR+"\nmaxC"+maxC+"\tminC"+minC);
         System.out.println("****************");
 
+ */
         if (minR>maxR || minC>maxC)
             return false;
         else
@@ -113,6 +118,7 @@ public abstract class GameLogic {
             //    System.out.println("Visited:"+temp.toString());
             else {
                 temp.setColor(newClr);
+                temp.setOwner(player);
                 player.territory.add(temp);
                 index=nodeExist(i+1,j);
                 queue.offer(factory.get(index));
@@ -126,11 +132,13 @@ public abstract class GameLogic {
         }
     }
     public void conquest(Player player,boolean right){
+/*
         System.out.println("vertex");
         for (PaintNode p : player.getLogic().vertex)
             System.out.println(p.toString());
         System.out.println("*************");
 
+ */
         boolean b=setBoundaries(player.tail);
 
             int index=0;
@@ -142,6 +150,7 @@ public abstract class GameLogic {
             for (PaintNode p:player.tail){
                 p.setColor(player.getColor());
                 p.isTaken=false;
+                p.setOwner(player);
             }
             player.territory.addAll(player.tail);
             player.tail.clear();
@@ -173,18 +182,9 @@ public abstract class GameLogic {
                 v1=vertex.get(0);
                 v2=vertex.get(i);
             }else {
-                // i<vertex.size()-1
                 v1=vertex.get(i);
                 v2=vertex.get(i+1);
             }
-/*
-            System.out.println("v1: "+v1.toString() +"  V2: "+ v2.toString());
-            System.out.println(x<( v1.getColumn() +((y- v1.getRow())/(v2.getRow())-v1.getRow()) * ((v2.getColumn())- v1.getColumn())));
-            System.out.println(((y- v1.getRow())/(v2.getRow())-v1.getRow()));
-            System.out.println(((v2.getColumn())- v1.getColumn()));
-            if( ((v2.getRow())-v1.getRow()) == 0 )
-                continue;
- */
             if( v2.getRow() != 0){
                 if((y<v1.getRow()) != (y< v2.getRow()) &&
                         x<( v1.getColumn() +((y- v1.getRow())/(v2.getRow())-v1.getRow()) * ((v2.getColumn())- v1.getColumn()) ))
@@ -204,7 +204,7 @@ public abstract class GameLogic {
                     //     System.out.println("tail or colored");
                     continue;
                 else if(rayCasting(i,j,right)){
-                    System.out.println("Base:"+factory.get(index));
+                //    System.out.println("Base:"+factory.get(index));
                     return index;
                 }
             }

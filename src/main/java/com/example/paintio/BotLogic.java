@@ -15,8 +15,9 @@ public class BotLogic extends GameLogic implements Runnable{
         super(gridSize, cellSize);
         this.level = level;
         int r=randomPlace();
+      //  int r= nodeExist(0,23);
         setBot(r);
-        recentM=true;
+    //    recentM=true;
     }
     private void  setBot(int index){
         int id = botPlayers.size()+1;
@@ -26,7 +27,7 @@ public class BotLogic extends GameLogic implements Runnable{
         defult(bot,bot.getColor(),bot.getX(),bot.getY());
     }
     private int randomPlace(){
-        System.out.println("place");
+    //    System.out.println("place");
         int r=-1;
         while(r<0){
             Random rand = new Random();
@@ -42,7 +43,7 @@ public class BotLogic extends GameLogic implements Runnable{
         return r;
     }
     private int easyDirection(){
-        System.out.println("lastMove : "+lastMove);
+    //    System.out.println("lastMove : "+lastMove);
         int dr=-1;
         while (dr<0){
             Random rand = new Random();
@@ -50,9 +51,9 @@ public class BotLogic extends GameLogic implements Runnable{
             // Avoid turning back
             if (dr!=lastMove && dr%2==lastMove%2)
                 dr=-1;
-            System.out.println("dr : "+dr);
+    //        System.out.println("dr : "+dr);
         }
-        System.out.println("Direction : "+dr);
+    //    System.out.println("Direction : "+dr);
         return dr;
     }
     public int move(int direction){
@@ -79,19 +80,10 @@ public class BotLogic extends GameLogic implements Runnable{
             }
             i =nodeExist(r,c);
             if(i<0){
-                //bot.tail.contains(factory.get(i))
                 direction++;
                 direction %=4;
-            //    time++;
-                System.out.println("t++/i: "+i);
+            //    System.out.println("i: "+i+"  d :"+direction);
             }
-            /*else if( bot.territory.contains(factory.get(i)) ){
-                i=-1;
-                direction++;
-                direction %=4;
-            }
-
-             */
         }
         lastM=recentM;
         recentM=(direction%2==1);
@@ -112,6 +104,7 @@ public class BotLogic extends GameLogic implements Runnable{
                 for (PaintNode p: b.tail){
                     if(p.getRow()==r && p.getColumn()==c){
                         b.getLogic().die();
+                        b.setAlive(false);
                         break;
                     }
                 }
@@ -120,19 +113,33 @@ public class BotLogic extends GameLogic implements Runnable{
     }
     @Override
     public void die() {
-    //    bot.setAlive(false);
+        System.out.println("DIE "+bot.getNode().toString() );
         bot.getNode().removePlayer(bot);
         bot.territory.addAll(bot.tail);
+        /*
+        System.out.println("\n^^^^^^^^^ territory ");
+        for(PaintNode p: bot.territory)
+            System.out.print(p.toString());
+        System.out.println("\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+         */
         for(PaintNode p: bot.territory){
             int r=p.getRow();
             int c=p.getColumn();
             int index=nodeExist(r,c);
-            if(factory.get(index).getOwner()==bot)
+            System.out.println(factory.get(index));
+            //factory.get(index).getOwner()==bot
+            if( factory.get(index).getColor()==bot.getColor() || factory.get(index).getOwner()==null){
                 factory.get(index).setColor(factory.get(index).getDefualtColor());
+                factory.get(index).setOwner(null);
+            } else if(factory.get(index).getColor()==bot.getTailColor()){
+                Player ply=factory.get(index).getOwner();
+                factory.get(index).setColor(ply.getColor());
+                factory.get(index).isTaken=false;
+            }
         }
         bot.territory.clear();
         bot.tail.clear();
-        time=0;
     }
     @Override
     public void run() {
@@ -141,11 +148,11 @@ public class BotLogic extends GameLogic implements Runnable{
         while(getRunning()){
             int d;
             if(bot.isAlive()){
+                System.out.println("time :"+time);
                 if(time%3==0){
                     if(level==Level.EASY){
                         d=easyDirection();
                     } else {
-                        System.out.println("time :"+time);
                         if(time%9==0){
                             vertex.add(bot.getNode());
                             System.out.println();
@@ -153,9 +160,11 @@ public class BotLogic extends GameLogic implements Runnable{
                             neighbor=neighbor(bot.getX(),bot.getY());
                         }
                         d=hardDirection(neighbor,startPoint,time%9);
+                        lastMove=d;
                     }
                     time++;
                 } else {
+                    System.out.println("LM"+lastMove);
                     d = lastMove;
                     time++;
                 }
@@ -163,7 +172,6 @@ public class BotLogic extends GameLogic implements Runnable{
                         kill();
                         int index=move(d);
                         bot.setNode(factory.get(index));
-                        factory.get(index).setOwner(bot);
                         lastMove=d;
                 });
             } else {
@@ -204,21 +212,22 @@ public class BotLogic extends GameLogic implements Runnable{
         index=nodeExist(r+1,c);
         if(index>0)
             neighbors.add(factory.get(index));
-
+/*
         System.out.println(r+"  "+c);
         for (PaintNode n:neighbors)
             System.out.print(n.toString()+"\t");
         System.out.println();
+ */
         return neighbors;
     }
     private int hardDirection(ArrayList<PaintNode> neighbors, PaintNode startPoint,int t){
-        int dr = -1;
+        int dr = -2;
 
         if(t==0)
             dr=firstMove(neighbors,startPoint);
         else if (t==3)
             dr=secondMove(neighbors,startPoint);
-        else {
+        else if (t==6 || dr==-1){
             System.out.println("thirdMove");
             if(lastMove%2==0){ // move up or down
                 if(bot.getX()<startPoint.getRow())
@@ -257,13 +266,15 @@ public class BotLogic extends GameLogic implements Runnable{
                 i++;
             }
         }
-        
         //compare
         int min=0;
-        if(i>1)
+        if(i==0)
+            return -1;
+        else         if(i>1)
             if(distance[1]<distance[0])
                 min=1;
         PaintNode closest=neighbors.get(possiblePath[min]);
+
         return diraction(closest,startPoint);
     }
     private int secondMove(ArrayList<PaintNode> neighbors, PaintNode startPoint) {
@@ -271,8 +282,8 @@ public class BotLogic extends GameLogic implements Runnable{
         PaintNode closest = null;
         int i = 0;
         int dr = 0;
-        int[] possiblePath = new int[2];
-        double[] distance = new double[2];
+        int[] possiblePath = new int[4];
+        double[] distance = new double[4];
         ArrayList<PaintNode> colored = new ArrayList<>();
 
         for (int j = 0; j < neighbors.size(); j++) {
@@ -284,23 +295,21 @@ public class BotLogic extends GameLogic implements Runnable{
                     i++;
                 }
         }
-
         int min = 0;
-        if (colored.size() > 1) {
+        if(colored.size()==0)
+            return -1;
+        else if (colored.size() > 1) {
             int index = nodeExist(players.get(0).getX(), players.get(0).getY());
             distance[0] = distance(colored.get(0), factory.get(index));
             distance[1] = distance(colored.get(1), factory.get(index));
             //compare
-            min = 0;
             if(i>1)
                 if (distance[1] < distance[0])
                     min = 1;
-        } else
-            closest = colored.get(0);
+        }
 
         closest = colored.get(min);
         dr=diraction(closest,startPoint);
-                System.out.println("dr :"+dr);
         return dr;
     }
     private int diraction(PaintNode p1,PaintNode p2){

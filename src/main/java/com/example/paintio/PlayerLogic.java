@@ -94,7 +94,6 @@ public class PlayerLogic extends GameLogic{
             vertex.add(factory.get(index));
 
             boolean right=false;
-       //     if(mainPlayer.getY()<c || c<8)
             int i=0;
             if(vertex.size()>1){
                 if(vertex.size()>2 && vertex.get(0)==vertex.get(1))
@@ -102,11 +101,9 @@ public class PlayerLogic extends GameLogic{
                 if(vertex.get(i).getColumn()>vertex.get(i+1).getColumn() )
                     right=true;
             }
-            System.out.println("Right: "+right);
+       //     System.out.println("Right: "+right);
             conquest(mainPlayer,right);
-        //    findBase(mainPlayer,right);
-        //    paintArea(mainPlayer,right);
-    }else {
+        }else {
             if(vertex.size()==0){
                 int h=nodeExist(mainPlayer.getX(),mainPlayer.getY());
                 vertex.add(factory.get(h));
@@ -124,9 +121,9 @@ public class PlayerLogic extends GameLogic{
                 int j=z+c;
                 int index=nodeExist(i,j);
                 if(k==gridSize/2 && z==gridSize/2){
+                    factory.get(index).isTaken=true;
                     color(i,j);
                     addVertex(mainPlayer.getX(),mainPlayer.getY());
-                    factory.get(index).setOwner(mainPlayer);
                     mainPlayer.setX(i);
                     mainPlayer.setY(j);
                     kill();

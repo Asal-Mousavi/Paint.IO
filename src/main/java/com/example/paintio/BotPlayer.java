@@ -22,6 +22,7 @@ public class BotPlayer extends Player {
     public void setNode(PaintNode n){
         if(isAlive()){
             tail.add(node);
+            node.isTaken=true;
             node.setColor(super.getTailColor());
             getLogic().addVertex(node.getRow(),node.getColumn());
             if(n.getColor()==getColor()){
