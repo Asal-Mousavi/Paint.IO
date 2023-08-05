@@ -1,7 +1,6 @@
 package com.example.paintio;
 
 import javafx.animation.AnimationTimer;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -16,112 +15,109 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 public class StartController {
-   // Pane root;
     Stage primaryStage;
     Scene scene;
     @FXML
     private AnchorPane pane;
-    KeyCode keyCode;
-    private AnimationTimer timer;
-    @FXML
-    private Rectangle rect;
     public int speed;
     public int enemies;
     public Level level;
     // Define the size of the grid and cell
     private static final int GRID_SIZE = 25;
     private static final int CELL_SIZE = 32;
-
-    private int currentX ;
-    private int currentY ;
-
-    int direction;
     // Define the GridPane
     private GridPane gridPane = new GridPane();
-    private Rectangle player = new Rectangle(GRID_SIZE / 2 * CELL_SIZE, GRID_SIZE / 2 * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    //Current location( first node in the top left corner that we start filling the gridPane from)
+    private int currentX ;
+    private int currentY ;
+    // Move
+    int direction;
+    KeyCode keyCode;
+    private AnimationTimer timer;
+    // MainPlayer
+    private final Rectangle player = new Rectangle(GRID_SIZE / 2 * CELL_SIZE, GRID_SIZE / 2 * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    // Singleton
     PlayerLogic nodes =PlayerLogic.getInstance(GRID_SIZE,CELL_SIZE);
     Weapons weapons=new Weapons(nodes);
-    public void start(ActionEvent event){
+    public void start(){
         primaryStage= new Stage();
+
+        // Initialize gridPane
         nodes.fillGridPane(gridPane,0,0);
-        player.setFill(nodes.getMainPlayer().getColor());
-       //thread
+        player.setFill(Color.GOLDENROD);
+
+        // Thread
         for (int n=0;n<enemies;n++){
-            BotLogic bN= new BotLogic(GRID_SIZE,CELL_SIZE,level);
-            bN.level=level;
-            bN.botSpeed=speed*2;
-            Thread thread = new Thread(bN);
+            BotLogic botLogic= new BotLogic(GRID_SIZE,CELL_SIZE,level);
+            botLogic.level=level;
+            botLogic.botSpeed=speed*2;
+            Thread thread = new Thread(botLogic);
             thread.start();
         }
 
-/*        BotLogic bN= new BotLogic(GRID_SIZE,CELL_SIZE,Level.EASY);
-        Thread thread = new Thread(bN);
-        thread.start();
-
-        BotLogic bN1= new BotLogic(GRID_SIZE,CELL_SIZE,Level.EASY);
-        Thread thread1 = new Thread(bN1);
-        thread1.start();
-
- */
+        // Add root and scene
         Pane root = new Pane(gridPane,player);
         scene = new Scene(root, GRID_SIZE * CELL_SIZE, GRID_SIZE * CELL_SIZE);
 
         // Show the stage
         primaryStage.setScene(scene);
         primaryStage.show();
+        // Move the player
         timer =new AnimationTimer() {
             KeyCode lastPress;
             @Override
             public void handle(long now) {
-                        //=KeyCode.W;
-                if(nodes.getRunning()){
-                    switch (keyCode) {
-                        case W:
-                            direction=1;
-                            currentX--;
-                            nodes.generateRow(currentX, false);
-                            lastPress=keyCode;
-                            break;
-                        case S:
-                            direction=3;
-                            currentX++;
-                            nodes.generateRow(currentX, true);
-                            lastPress=keyCode;
-                            break;
-                        case D:
-                            direction=0;
-                            currentY++;
-                            nodes.generateColumn(currentY, true);
-                            lastPress=keyCode;
-                            break;
-                        case A:
-                            direction=2;
-                            currentY--;
-                            nodes.generateColumn(currentY, false);
-                            lastPress=keyCode;
-                            break;
-                        case ENTER:
-                            weapons.weaponA(direction);
-                            keyCode=lastPress;
-                            break;
-                        case SPACE:
-                            weapons.weaponB(direction);
-                            keyCode=lastPress;
-                            break;
-                    }
-                    nodes.fillGridPane(gridPane,currentX,currentY);
-                    try {
-                        Thread.sleep(speed);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
+
+                switch (keyCode) {
+                    case W:
+                        direction=1;
+                        currentX--;
+                        nodes.generateRow(currentX, false);
+                        lastPress=keyCode;
+                        break;
+                    case S:
+                        direction=3;
+                        currentX++;
+                        nodes.generateRow(currentX, true);
+                        lastPress=keyCode;
+                        break;
+                    case D:
+                        direction=0;
+                        currentY++;
+                        nodes.generateColumn(currentY, true);
+                        lastPress=keyCode;
+                        break;
+                    case A:
+                        direction=2;
+                        currentY--;
+                        nodes.generateColumn(currentY, false);
+                        lastPress=keyCode;
+                        break;
+                    case ENTER:
+                        weapons.weaponA(direction);
+                        keyCode=lastPress;
+                        break;
+                    case SPACE:
+                        weapons.weaponB(direction);
+                        keyCode=lastPress;
+                        break;
+                }
+                nodes.fillGridPane(gridPane,currentX,currentY);
+
+                try {
+                    Thread.sleep(speed);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                if( !nodes.getRunning() ){
                     timer.stop();
                     gameOver();
                 }
             }
 
         };
+
         scene.setOnKeyPressed(kEvent -> {
             if(nodes.getRunning()){
                 keyCode=kEvent.getCode();
@@ -132,7 +128,7 @@ public class StartController {
     public void gameOver() {
         primaryStage.close();
         primaryStage= new Stage();
-
+        // Add labels and image manually
         Label bigLabel = new Label("    GAME OVER !");
         bigLabel.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 50));
         bigLabel.setTextFill(Color.PURPLE);
@@ -155,6 +151,7 @@ public class StartController {
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(GRID_SIZE * CELL_SIZE);
         imageView.setFitHeight(GRID_SIZE * CELL_SIZE);
+
         Pane root = new Pane(imageView,bigLabel,smallLabel);
         scene = new Scene(root, GRID_SIZE * CELL_SIZE, GRID_SIZE * CELL_SIZE);
         primaryStage.setScene(scene);

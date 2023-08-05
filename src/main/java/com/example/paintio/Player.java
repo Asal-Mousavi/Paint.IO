@@ -10,18 +10,19 @@ public class Player extends StackPane {
     private int y;
     public ArrayList<PaintNode> tail = new ArrayList<>();
     public ArrayList<PaintNode> territory = new ArrayList<>();
-    private GameLogic logic;
-    private Color color;
-    private Color tailColor;
-    private int num;
+    private final GameLogic logic;
+    private final Color color;
+    private final Color tailColor;
+    private final int num;
     private boolean isAlive;
 
     Player(int id,int size,GameLogic logic) {
+        // Default location of mainPlayer is in the center of screen
         x=size/2;
         y=size/2;
         this.num = id;
         this.logic=logic;
-        isAlive = true;
+        setAlive(true);
         tailColor=clr.getTailColor(num);
         color=clr.getTerritoryColor(num);
     }
@@ -38,7 +39,8 @@ public class Player extends StackPane {
         this.y = y;
     }
     public Color getColor(){
-        return color;}
+        return color;
+    }
     public Color getTailColor() {
         return tailColor;
     }

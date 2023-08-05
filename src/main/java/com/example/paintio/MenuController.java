@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
@@ -20,15 +21,15 @@ public class MenuController implements Initializable {
     private Scene scene;
     @FXML
     private ChoiceBox<Integer> enemy;
-    private Integer[] numberOfEnemies ={1,2,3};
+    private final Integer[] numberOfEnemies ={1,2,3};
     private int selectedEnemy;
     @FXML
     private ChoiceBox<Level> level;
-    private Level[] difficalty={Level.EASY,Level.HARD};
+    private final Level[] difficalty={Level.EASY,Level.HARD};
     private Level selectedLevel;
     @FXML
     private ChoiceBox<String> speed;
-    private String[] speedPrs ={"100%","50%","25%"};
+    private final String[] speedPrs ={"100%","50%","25%"};
     private int selectedSpeed;
 
     @Override
@@ -51,11 +52,11 @@ public class MenuController implements Initializable {
     public void setSpeed(ActionEvent actionEvent) {
         String s=speed.getValue();
         int sp=0;
-        if(s=="100%")
+        if(Objects.equals(s, "100%"))
             sp=80;
-        if(s=="50%")
+        if(Objects.equals(s, "50%"))
             sp=160;
-        if(s=="25%")
+        if(Objects.equals(s, "25%"))
             sp=320;
         selectedSpeed=sp;
     }

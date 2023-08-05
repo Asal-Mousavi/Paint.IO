@@ -5,26 +5,37 @@ import java.util.*;
 
 public abstract class GameLogic {
     private static Boolean running;
-    public static ArrayList<PaintNode> factory= new ArrayList<PaintNode>();
-    public static ArrayList<BotPlayer> botPlayers= new ArrayList<>();
+    public static ArrayList<PaintNode> factory= new ArrayList<>();
+    // MainPlayer + BotPlayers
     public static ArrayList<Player> players=new ArrayList<>();
+    // Only Bots
+    public static ArrayList<BotPlayer> botPlayers= new ArrayList<>();
+    // Requirements for generating nodes
+    int gridSize;
+    int cellSize;
     public static ArrayList<Integer> rows = new ArrayList<>();
     public static ArrayList<Integer> columns = new ArrayList<>();
+    // Requirements for flood fill
+    boolean lastM;
+    boolean recentM;
     ArrayList<PaintNode> vertex=new ArrayList<>();
     private int maxR;
     private int maxC;
     private int minR;
     private int minC;
-    boolean lastM;
-    boolean recentM;
-    int gridSize;
-    int cellSize;
+
     GameLogic(int gridSize,int cellSize){
         this.gridSize=gridSize;
         this.cellSize=cellSize;
         setRunning(true);
     }
-    void defult(Player p,Color color,int r,int c){
+    void setRunning(Boolean running) {
+        this.running = running;
+    }
+    public Boolean getRunning() {
+        return running;
+    }
+    void defaultArea(Player p,Color color,int r,int c){
         for (int i = r ; i < r+4 ; i++) {
             for (int j = c-3 ; j < c+1; j++) {
                 int index=nodeExist(i,j);
@@ -35,10 +46,17 @@ public abstract class GameLogic {
                 }
             }
         }
+        // If there is not enough space for the player place it somewhere else
         if(p.territory.size()<4){
             p.setAlive(false);
             p.getLogic().die();
         }
+    }
+    public void addVertex(int r,int c){
+        int index =nodeExist(r,c);
+        // Change direction from vertical move to horizontal move or vice versa
+        if (recentM != lastM)
+            vertex.add(factory.get(index));
     }
     public int nodeExist(int r,int c){
         for(int i=0 ; i< factory.size() ; i++){
@@ -48,35 +66,17 @@ public abstract class GameLogic {
         }
         return -1;
     }
-    public void deduplication(ArrayList<PaintNode> arr){
-        ArrayList<PaintNode> unique = new ArrayList<PaintNode>(arr);
-        for(PaintNode p: arr){
-            if( !unique.contains(p) ){
-                unique.add(p);
-            }
-        }
-        arr.clear();
-        arr.addAll(unique);
-        unique.clear();
-    }
-    public void setRunning(Boolean running) {
-        this.running = running;
-        System.out.println(this.running);
-    }
-    public Boolean getRunning() {
-        return running;
-    }
     public abstract void kill();
     public abstract void die();
-    private boolean setBoundaries(ArrayList<PaintNode> line){
+
+    // Filling a closed area
+    private void setBoundaries(ArrayList<PaintNode> line){
         maxR=0;
         maxC=0;
         minR = rows.size()*2;
         minC = columns.size()*2;
-
-    //    System.out.println("\n$$$$$$$$ \n tail");
         for(PaintNode p : line){
-    //        System.out.println(p.toString());
+
             if(p.getRow()>maxR)
                 maxR=p.getRow();
 
@@ -89,89 +89,9 @@ public abstract class GameLogic {
             if(p.getColumn()<minC)
                 minC=p.getColumn();
         }
-/*
-        System.out.println("\n****************");
-        System.out.println("maxR"+maxR+"\tminR"+minR+"\nmaxC"+maxC+"\tminC"+minC);
-        System.out.println("****************");
-
- */
-        if (minR>maxR || minC>maxC)
-            return false;
-        else
-            return true;
     }
-    private void floodFill(int index, Color newClr, Color tailClr,Player player){
-        Color currentColor=factory.get(index).getColor();
-        if(currentColor == newClr)
-            return;
-        Queue<PaintNode> queue = new LinkedList<>();
-        queue.offer(factory.get(index));
-        while (!queue.isEmpty()){
-            PaintNode temp= queue.poll();
-            int i=temp.getRow();
-            int j=temp.getColumn();
-            if(i<minR || i>maxR || j<minC || j>maxC )
-                continue;
-            //    System.out.println("outsider:"+temp.toString());
-            else if( temp.getColor()==newClr || temp.getColor()==tailClr)
-                continue;
-            //    System.out.println("Visited:"+temp.toString());
-            else {
-                temp.setColor(newClr);
-                temp.setOwner(player);
-                player.territory.add(temp);
-                index=nodeExist(i+1,j);
-                queue.offer(factory.get(index));
-                index=nodeExist(i-1,j);
-                queue.offer(factory.get(index));
-                index=nodeExist(i,j+1);
-                queue.offer(factory.get(index));
-                index=nodeExist(i,j-1);
-                queue.offer(factory.get(index));
-            }
-        }
-    }
-    public void conquest(Player player,boolean right){
-/*
-        System.out.println("vertex");
-        for (PaintNode p : player.getLogic().vertex)
-            System.out.println(p.toString());
-        System.out.println("*************");
-
- */
-        boolean b=setBoundaries(player.tail);
-
-            int index=0;
-            while (index != -1){
-                index=findBase(player,right);
-                if(index>=0)
-                    floodFill(index,player.getColor(),player.getTailColor(),player);
-            }
-            for (PaintNode p:player.tail){
-                p.setColor(player.getColor());
-                int t=nodeExist(p.getRow(),p.getColumn());
-                factory.get(t).isTaken=false;
-                factory.get(t).setOwner(player);
-            }
-            player.territory.addAll(player.tail);
-            player.tail.clear();
-            vertex.clear();
-    }
-    @Override
-    public String toString() {
-        String str = "factory :";
-        for(PaintNode p: factory){
-            str += p.toString() ;
-        }
-        return " horizontalMove="   + "\t verticalMove="
-                +   "\n\n"+str;
-    }
-    public void addVertex(int r,int c){
-        int index =nodeExist(r,c);
-        if (recentM != lastM)
-            vertex.add(factory.get(index));
-    }
-    public boolean rayCasting(int y,int x,boolean right){
+    private boolean rayCasting(int y,int x,boolean right){
+        // Determine whether the node is inside the polygon or not
         int count=0;
         for (int i=0 ; i<vertex.size();i++){
             PaintNode v1;
@@ -195,21 +115,89 @@ public abstract class GameLogic {
         return count%2==1;
     }
     private int findBase(Player player,boolean right){
+        // Find a starting point for flood fill that is inside polygon and not on its border
         int index;
         for (int i=minR ; i<=maxR ; i++)
             for (int j=minC ; j<=maxC ; j++){
                 index=nodeExist(i,j);
 
                 if( factory.get(index).getColor()==player.getTailColor()
-                        || factory.get(index).getColor()==player.getColor() || factory.get(index).isTaken)
-                    //     System.out.println("tail or colored");
+                        || factory.get(index).getColor()==player.getColor() )
+                    // Tail or colored
                     continue;
-                else if(rayCasting(i,j,right)){
-                //    System.out.println("Base:"+factory.get(index));
+                else if(rayCasting(i,j,right))
                     return index;
-                }
             }
         return -1;
+    }
+    private void floodFill(int index, Color newClr, Color tailClr,Player player){
+        // Color all the inside nodes using BFS algorithm
+        Color currentColor=factory.get(index).getColor();
+        if(currentColor == newClr)
+            return;
+        Queue<PaintNode> queue = new LinkedList<>();
+        queue.offer(factory.get(index));
+        while (!queue.isEmpty()){
+            PaintNode temp= queue.poll();
+            int i=temp.getRow();
+            int j=temp.getColumn();
+            if(i<minR || i>maxR || j<minC || j>maxC )
+                continue;
+            // Outside the border
+            else if( temp.getColor()==newClr || temp.getColor()==tailClr)
+                continue;
+            // Visited
+            else {
+                temp.setColor(newClr);
+                temp.setOwner(player);
+                player.territory.add(temp);
+
+                // Add neighbors to the queue
+                index=nodeExist(i+1,j);
+                if(index>-1)
+                    queue.offer(factory.get(index));
+                index=nodeExist(i-1,j);
+                if(index>-1)
+                    queue.offer(factory.get(index));
+                index=nodeExist(i,j+1);
+                if(index>-1)
+                    queue.offer(factory.get(index));
+                index=nodeExist(i,j-1);
+                if(index>-1)
+                    queue.offer(factory.get(index));
+            }
+        }
+
+    }
+    public void conquest(Player player,boolean right){
+        setBoundaries(player.tail);
+        int index=0;
+        while (index != -1){
+            index=findBase(player,right);
+            if(index>=0)
+                floodFill(index,player.getColor(),player.getTailColor(),player);
+        }
+        // Color the border
+        for (PaintNode p:player.tail){
+            int t=nodeExist(p.getRow(),p.getColumn());
+            factory.get(t).setColor(player.getColor());
+            factory.get(t).isTaken=false;
+            factory.get(t).setOwner(player);
+        }
+        player.territory.addAll(player.tail);
+        player.tail.clear();
+        vertex.clear();
+    }
+    public void deduplication(ArrayList<PaintNode> arr){
+        ArrayList<PaintNode> unique = new ArrayList<PaintNode>(arr);
+        for(PaintNode p: arr){
+            if( !unique.contains(p) ){
+                unique.add(p);
+            }
+        }
+        arr.clear();
+        arr.addAll(unique);
+        unique.clear();
     }
 
 }

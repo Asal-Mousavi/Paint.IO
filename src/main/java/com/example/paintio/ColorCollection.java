@@ -7,31 +7,18 @@ public class ColorCollection {
     private ArrayList<Color> territoryColor=new ArrayList<>();
     private ArrayList<Color> tailColor=new ArrayList<>();
     private ColorCollection(){
-
+        // MainPlayer
         territoryColor.add(Color.GOLD);
         tailColor.add(Color.YELLOW);
-
-        territoryColor.add(Color.STEELBLUE);
-        tailColor.add(Color.POWDERBLUE);
-
-        territoryColor.add(Color.SEAGREEN);
-        tailColor.add(Color.LIGHTGREEN);
-
+        // Bot1
         territoryColor.add(Color.MEDIUMPURPLE);
         tailColor.add(Color.ORCHID);
-/*
-        territoryColor.add(Color.PURPLE);
-        tailColor.add(Color.ORCHID);
- */
-
-
-        territoryColor.add(Color.RED);
-        tailColor.add(Color.ORANGE);
-
-        territoryColor.add(Color.BROWN);
-        tailColor.add(Color.SADDLEBROWN);
-
-
+        // Bot2
+        territoryColor.add(Color.STEELBLUE);
+        tailColor.add(Color.POWDERBLUE);
+        // Bot3
+        territoryColor.add(Color.SEAGREEN);
+        tailColor.add(Color.LIGHTGREEN);
     }
     public static synchronized ColorCollection getInstance(){
         if (instance==null){
