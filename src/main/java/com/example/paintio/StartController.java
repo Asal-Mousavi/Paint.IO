@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-
 public class StartController {
    // Pane root;
     Stage primaryStage;
@@ -54,6 +53,7 @@ public class StartController {
             Thread thread = new Thread(bN);
             thread.start();
         }
+
 /*        BotLogic bN= new BotLogic(GRID_SIZE,CELL_SIZE,Level.EASY);
         Thread thread = new Thread(bN);
         thread.start();
@@ -157,23 +157,7 @@ public class StartController {
         imageView.setFitHeight(GRID_SIZE * CELL_SIZE);
         Pane root = new Pane(imageView,bigLabel,smallLabel);
         scene = new Scene(root, GRID_SIZE * CELL_SIZE, GRID_SIZE * CELL_SIZE);
-        // Show the stage
         primaryStage.setScene(scene);
         primaryStage.show();
-        /*
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("gameOver.fxml"));
-        Pane root;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Scene scene2 = new Scene(root);
-        Stage primaryStage2 = (Stage) pane.getScene().getWindow();
-        primaryStage2.setScene(scene2);
-        primaryStage2.show();
-
-         */
     }
 }

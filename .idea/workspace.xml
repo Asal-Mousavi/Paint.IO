@@ -6,12 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="c3f7c24e-b90a-4c13-93b2-e1e30f26a170" name="Changes" comment="moving grid">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/ColorCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/ColorCollection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameOver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/HelloApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PaintNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PaintNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/paintio/apps.38504.14311257158561123.315e8841-524b-4ed8-929d-c678ba3e28f4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/image.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/paintio/gameOver.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/paintio/start.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/paintio/start.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,9 +84,15 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+    </option>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="Paint.IO" />
@@ -149,7 +162,12 @@
       <workItem from="1690808391152" duration="4298000" />
       <workItem from="1690921550740" duration="4222000" />
       <workItem from="1690961696747" duration="8104000" />
-      <workItem from="1690980704831" duration="10765000" />
+      <workItem from="1690980704831" duration="11023000" />
+      <workItem from="1691053937883" duration="4352000" />
+      <workItem from="1691065775704" duration="3894000" />
+      <workItem from="1691143169999" duration="3741000" />
+      <workItem from="1691147051403" duration="439000" />
+      <workItem from="1691224947127" duration="1783000" />
     </task>
     <task id="LOCAL-00001" summary="start!">
       <created>1688995800862</created>

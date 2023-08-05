@@ -112,8 +112,8 @@ public abstract class GameLogic {
             int j=temp.getColumn();
             if(i<minR || i>maxR || j<minC || j>maxC )
                 continue;
-            //    System.out.println("outsider:"+temp.toString()); ;
-            else if( temp.getColor()==newClr || temp.getColor()==tailClr || temp.isTaken)
+            //    System.out.println("outsider:"+temp.toString());
+            else if( temp.getColor()==newClr || temp.getColor()==tailClr)
                 continue;
             //    System.out.println("Visited:"+temp.toString());
             else {

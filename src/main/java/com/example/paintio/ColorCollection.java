@@ -11,11 +11,19 @@ public class ColorCollection {
         territoryColor.add(Color.GOLD);
         tailColor.add(Color.YELLOW);
 
-        territoryColor.add(Color.DARKBLUE);
-        tailColor.add(Color.BLUE);
+        territoryColor.add(Color.STEELBLUE);
+        tailColor.add(Color.POWDERBLUE);
 
-        territoryColor.add(Color.GREEN);
-        tailColor.add(Color.CHARTREUSE);
+        territoryColor.add(Color.SEAGREEN);
+        tailColor.add(Color.LIGHTGREEN);
+
+        territoryColor.add(Color.MEDIUMPURPLE);
+        tailColor.add(Color.ORCHID);
+/*
+        territoryColor.add(Color.PURPLE);
+        tailColor.add(Color.ORCHID);
+ */
+
 
         territoryColor.add(Color.RED);
         tailColor.add(Color.ORANGE);
@@ -23,8 +31,7 @@ public class ColorCollection {
         territoryColor.add(Color.BROWN);
         tailColor.add(Color.SADDLEBROWN);
 
-        territoryColor.add(Color.PURPLE);
-        tailColor.add(Color.MEDIUMPURPLE);
+
     }
     public static synchronized ColorCollection getInstance(){
         if (instance==null){

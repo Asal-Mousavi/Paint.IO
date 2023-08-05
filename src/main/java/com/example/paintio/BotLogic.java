@@ -126,14 +126,14 @@ public class BotLogic extends GameLogic implements Runnable{
             int r=p.getRow();
             int c=p.getColumn();
             int index=nodeExist(r,c);
-            System.out.println(factory.get(index));
             //factory.get(index).getOwner()==bot
             if( factory.get(index).getColor()==bot.getColor() || factory.get(index).getOwner()==null){
+            //    System.out.println(factory.get(index).getOwner().getNum());
                 factory.get(index).setColor(factory.get(index).getDefualtColor());
                 factory.get(index).setOwner(null);
             } else if(factory.get(index).getColor()==bot.getTailColor()){
-                Player ply=factory.get(index).getOwner();
-                factory.get(index).setColor(ply.getColor());
+                System.out.println("node : "+ factory.get(index) +"  Owner : "+factory.get(index).getOwner().getNum());
+                factory.get(index).setColor(factory.get(index).getOwner().getColor());
                 factory.get(index).isTaken=false;
             }
         }
@@ -147,14 +147,14 @@ public class BotLogic extends GameLogic implements Runnable{
         while(getRunning()){
             int d;
             if(bot.isAlive()){
-                System.out.println("time :"+time);
+            //    System.out.println("time :"+time);
                 if(time%3==0){
                     if(level==Level.EASY){
                         d=easyDirection();
                     } else {
                         if(time%9==0){
                             vertex.add(bot.getNode());
-                            System.out.println();
+                   //         System.out.println();
                             startPoint=bot.getNode();
                             neighbor=neighbor(bot.getX(),bot.getY());
                         }
@@ -163,7 +163,7 @@ public class BotLogic extends GameLogic implements Runnable{
                     }
                     time++;
                 } else {
-                    System.out.println("LM"+lastMove);
+               //     System.out.println("LM"+lastMove);
                     d = lastMove;
                     time++;
                 }
@@ -227,7 +227,7 @@ public class BotLogic extends GameLogic implements Runnable{
         else if (t==3)
             dr=secondMove(neighbors,startPoint);
         else if (t==6 || dr==-1){
-            System.out.println("thirdMove");
+        //    System.out.println("thirdMove");
             if(lastMove%2==0){ // move up or down
                 if(bot.getX()<startPoint.getRow())
                     dr=3;
@@ -241,7 +241,7 @@ public class BotLogic extends GameLogic implements Runnable{
             }
         }
 
-        System.out.println("dr :"+dr);
+        //System.out.println("dr :"+dr);
         return dr;
     }
     private double distance(PaintNode p1,PaintNode p2){
@@ -253,7 +253,7 @@ public class BotLogic extends GameLogic implements Runnable{
         return distance;
     }
     private int firstMove(ArrayList<PaintNode> neighbors,PaintNode startPoint){
-        System.out.println("firstMove");
+    //    System.out.println("firstMove");
         int i=0;
         int[] possiblePath=new int[4];
         double[] distance=new double[4];
@@ -277,7 +277,7 @@ public class BotLogic extends GameLogic implements Runnable{
         return diraction(closest,startPoint);
     }
     private int secondMove(ArrayList<PaintNode> neighbors, PaintNode startPoint) {
-        System.out.println("secondMove");
+    //    System.out.println("secondMove");
         PaintNode closest = null;
         int i = 0;
         int dr = 0;

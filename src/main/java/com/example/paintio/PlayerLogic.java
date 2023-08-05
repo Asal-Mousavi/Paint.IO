@@ -84,7 +84,7 @@ public class PlayerLogic extends GameLogic{
     }
     @Override
     public void die() {
-        System.out.println("Game over!");
+    //    System.out.println("Game over!");
         mainPlayer.setAlive(false);
         setRunning(false);
     }

@@ -35,7 +35,7 @@ public class BotPlayer extends Player {
                     if(getLogic().vertex.get(i).getColumn()>getLogic().vertex.get(i+1).getColumn() )
                         right=true;
                 }
-                System.out.println("Right: "+right);
+            //    System.out.println("Right: "+right);
                 getLogic().conquest(this,right);
             }
          /*

@@ -29,9 +29,9 @@ public class PaintNode extends StackPane {
     }
     private void setDefualtColor(){
         if((row+column)%2==0)
-            defualtColor=Color.WHITE;
+            defualtColor=Color.ALICEBLUE;
         else
-            defualtColor=Color.GRAY;
+            defualtColor=Color.LIGHTGRAY;
     }
     public Color getDefualtColor(){
         return defualtColor;
