@@ -106,11 +106,11 @@ public class PlayerLogic extends GameLogic{
                 int j=z+c;
                 int index=nodeExist(i,j);
                 if(k==gridSize/2 && z==gridSize/2){
-                    color(i,j);
-                    addVertex(mainPlayer.getX(),mainPlayer.getY());
                     mainPlayer.setX(i);
                     mainPlayer.setY(j);
                     kill();
+                    color(i,j);
+                    addVertex(mainPlayer.getX(),mainPlayer.getY());
                 }
                 g.add(factory.get(index),z, k);
             }

@@ -10,20 +10,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3f7c24e-b90a-4c13-93b2-e1e30f26a170" name="Changes" comment="moving grid">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Paint_IO_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PaintIO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Paint_IO_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/BotPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/ColorCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/ColorCollection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/GameLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/MenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PaintNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PaintNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/HelloApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/PlayerLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/StartController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/paintio/Weapons.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/paintio/Weapons.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +66,7 @@
     </option>
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2SNn0GvtvQkTIJ7pUWhAdf6lmac" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -91,20 +86,22 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;last_directory_selection&quot;: &quot;C:/Users/user/IdeaProjects/New folder/Paint.IO/src/main/java/com/example/paintio&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Desktop&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/IdeaProjects/New folder/Paint.IO/src&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
+      <command value="mvn install" />
       <command value="mvn clean" />
     </option>
   </component>
@@ -185,7 +182,13 @@
       <workItem from="1691224947127" duration="4337000" />
       <workItem from="1691229307149" duration="1880000" />
       <workItem from="1691246625242" duration="10412000" />
-      <workItem from="1691260716306" duration="6898000" />
+      <workItem from="1691260716306" duration="7649000" />
+      <workItem from="1691306642298" duration="811000" />
+      <workItem from="1691307546092" duration="3689000" />
+      <workItem from="1691311860734" duration="207000" />
+      <workItem from="1691312232819" duration="227000" />
+      <workItem from="1691391024465" duration="4237000" />
+      <workItem from="1691395849028" duration="683000" />
     </task>
     <task id="LOCAL-00001" summary="start!">
       <created>1688995800862</created>
@@ -245,5 +248,9 @@
     <MESSAGE value="key" />
     <MESSAGE value="moving grid" />
     <option name="LAST_COMMIT_MESSAGE" value="moving grid" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

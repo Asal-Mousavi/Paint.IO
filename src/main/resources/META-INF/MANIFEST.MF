@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: com.example.paintio.HelloApplication
+Main-Class: com.example.paintio.PaintIO
 
